@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread; // once a thread is started, it keeps the program running until you stop it
     //when it's started, the RUN method found below is automatically called
 
-    Player player = new Player(this, keyH);
+    Player player = new Player(this);
     Room room = new Room(0, keyH);
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));// window size
