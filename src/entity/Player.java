@@ -12,8 +12,11 @@ import java.util.Random;
 
 public class Player extends Entity{
     GamePanel gp;
+
     boolean is_moving = false;
     public int next_x = 0, next_y = 0;
+
+    public static int age = 0;
 
     public Player(GamePanel gp){
         this.gp = gp;
@@ -23,11 +26,31 @@ public class Player extends Entity{
 
     public void getPlayerImage(){
         try{
-            if(x < next_x) {
-                dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl_mirr.png"));
+            if(age == 0){
+                if(x < next_x) {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl_mirr.png"));
+                }
+                else {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl.png"));
+                }
             }
-            else {
-                dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl.png"));
+
+            if(age == 1){
+                if(x < next_x) {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl_mirr.png"));
+                }
+                else {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl.png"));
+                }
+            }
+
+            if(age >= 2){
+                if(x < next_x) {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl_mirr.png"));
+                }
+                else {
+                    dino = ImageIO.read(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl.png"));
+                }
             }
         }
         catch(IOException e){
@@ -89,7 +112,6 @@ public class Player extends Entity{
     }
 
     public void draw(Graphics2D g2){
-
-        g2.drawImage(dino, x, y, gp.tileSize*6, gp.tileSize*6, null);
+        g2.drawImage(dino, x, y, 33*6, 45*6, null);
     }
 }

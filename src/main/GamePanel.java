@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int screenHeight = tileSize * maxScreenRow;
     //=> actual window size in pixels
 
+    public static long startTime = 0;
 
     //FPS
     int FPS = 60;
@@ -52,11 +53,22 @@ public class GamePanel extends JPanel implements Runnable{
 
         while(gameThread != null){
 
-            long currentTime = System.nanoTime(); // alternative: long currentTime2 = System.currentTimeMillis();
+            long currentTime = System.nanoTime();
+            if(startTime == 0) {
+                startTime = System.nanoTime();
+            }
+
+            if(currentTime/1000000 > startTime/1000000 + 20000){
+                entity.Player.age = 2;
+            }
+            else if(currentTime/1000000 > startTime/1000000 + 10000){
+                entity.Player.age = 1;
+            }
+
             //1.UPDATE - update information (ex. character position)
             update();
             //2.DRAW - draw the screen with the updated information
-            repaint(); // calling the paintComponent() method stated below
+            repaint(); // calling the paintComponent() method
 
             try {
                 double remainingTime = nextDrawTime - System.nanoTime();
@@ -73,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
