@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable{
     //when it's started, the RUN method found below is automatically called
 
     Player player = new Player(this);
-    Room room = new Room(0, keyH);
+    Room room = new Room(3, keyH);
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));// window size
         this.setBackground(Color.pink); // background color
@@ -100,7 +100,9 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        player.draw(g2);
+        if(room.room_type != 3) {
+            player.draw(g2);
+        }
 
         g2.dispose();
     }

@@ -1,6 +1,7 @@
 package main;
 
 import javax.swing.JFrame;
+import java.awt.*;
 
 public class Main {
 
@@ -11,8 +12,12 @@ public class Main {
         window.setResizable(false); // the window can't be resized
         window.setTitle("TamaSaurier"); // the window's name
 
+        MouseHandler mouse = new MouseHandler();
+
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);
+
+        window.addMouseListener(mouse);
 
         window.pack();
 
