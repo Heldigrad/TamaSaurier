@@ -10,7 +10,7 @@ public class MouseHandler implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        System.out.println((e.getX() - 8) + "; " + (e.getY() - 31));
     }
 
     @Override

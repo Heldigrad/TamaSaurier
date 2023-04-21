@@ -47,6 +47,7 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
+        //WASD -> moves the dino
         if(code == KeyEvent.VK_W){
             upPressed = false;
         }
@@ -60,13 +61,7 @@ public class KeyHandler implements KeyListener {
             rightPressed = false;
         }
 
-        if(code == KeyEvent.VK_LEFT){
-            prevRoomPressed = false;
-        }
-        if(code == KeyEvent.VK_RIGHT){
-            nextRoomPressed = false;
-        }
-
+        //ESC -> displays menu
         if(code == KeyEvent.VK_ESCAPE){
             escPressed = false;
         }

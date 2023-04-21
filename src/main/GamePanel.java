@@ -1,5 +1,7 @@
 package main;
 
+import entity.Football;
+import entity.Goal;
 import entity.Player;
 import room.Room;
 
@@ -26,12 +28,16 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS
     int FPS = 60;
 
-    KeyHandler keyH = new KeyHandler();
+    public KeyHandler keyH = new KeyHandler();
     Thread gameThread; // once a thread is started, it keeps the program running until you stop it
     //when it's started, the RUN method found below is automatically called
 
-    Player player = new Player(this);
-    Room room = new Room(3, keyH);
+    public Room room = new Room(0, keyH);
+    public Player player = new Player(this);
+
+    public Football football = new Football(this);
+    public Goal goal = new Goal(this);
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));// window size
         this.setBackground(Color.pink); // background color
@@ -59,10 +65,14 @@ public class GamePanel extends JPanel implements Runnable{
             }
 
             if(currentTime/1000000 > startTime/1000000 + 20000){
-                entity.Player.age = 2;
+                if(room.room_type != 4) {
+                    entity.Player.age = 2;
+                }
             }
             else if(currentTime/1000000 > startTime/1000000 + 10000){
-                entity.Player.age = 1;
+                if(room.room_type != 4) {
+                    entity.Player.age = 1;
+                }
             }
 
             //1.UPDATE - update information (ex. character position)
@@ -92,6 +102,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void update(){
         player.update();
         room.update();
+        football.update();
     }
 
     public void paintComponent(Graphics g){
@@ -100,8 +111,15 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        if(room.room_type != 3) {
+        if(room.room_type != 0) {
             player.draw(g2);
+            if(room.room_type == 4){
+                football.draw(g2);
+                goal.draw(g2);
+                g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+                g2.setColor(Color.white);
+                g2.drawString("Score: " + football.score, 1300, 50);
+            }
         }
 
         g2.dispose();
