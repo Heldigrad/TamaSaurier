@@ -33,17 +33,26 @@ public class GamePanel extends JPanel implements Runnable{
     //when it's started, the RUN method found below is automatically called
 
     public Room room = new Room(0, keyH);
-    public Player player = new Player(this);
+    public Player player = Player.getInstance();
 
     public Football football = new Football(this);
     public Goal goal = new Goal(this);
 
-    public GamePanel(){
+    private static GamePanel instance;
+
+    private GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));// window size
         this.setBackground(Color.pink); // background color
         this.setDoubleBuffered(true); // this should improve the game's rendering performance
         this.addKeyListener(keyH); // adding keyboard stuff
         this.setFocusable(true); // the game panel can be "focused" to receive key input
+    }
+
+    public static GamePanel getInstance() {
+        if(instance == null){
+            instance = new GamePanel();
+        }
+        return instance;
     }
 
     public void startGameThread(){
@@ -103,6 +112,22 @@ public class GamePanel extends JPanel implements Runnable{
         player.update();
         room.update();
         football.update();
+        if(room.bed_pressed){
+            player.energy.level = 1;
+            room.bed_pressed = false;
+        }
+        if(room.fridge_pressed){
+            player.hunger.level = 1;
+            room.fridge_pressed = false;
+        }
+        if(room.bathtub_pressed){
+            player.hygiene.level = 1;
+            room.bathtub_pressed = false;
+        }
+        if(room.room_type == 4 && football.intersects_player){
+            player.fun.level = 1;
+            football.intersects_player = false;
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -119,6 +144,12 @@ public class GamePanel extends JPanel implements Runnable{
                 g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
                 g2.setColor(Color.white);
                 g2.drawString("Score: " + football.score, 1300, 50);
+            }
+            else{
+                player.energy.draw(g2, Color.green, 65, 55);
+                player.hunger.draw(g2, Color.yellow, 65, 133);
+                player.fun.draw(g2, Color.pink, 280, 55);
+                player.hygiene.draw(g2, Color.lightGray, 280, 133);
             }
         }
 

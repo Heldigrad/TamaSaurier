@@ -14,7 +14,7 @@ public class Main {
 
         MouseHandler mouse = new MouseHandler();
 
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = GamePanel.getInstance();
         window.add(gamePanel);
 
         window.addMouseListener(mouse);

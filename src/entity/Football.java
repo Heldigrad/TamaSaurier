@@ -11,11 +11,12 @@ public class Football extends Entity{
 
     GamePanel gp;
     public int score;
+    public boolean intersects_player = false;
 
     public Football(GamePanel gp){
         this.gp = gp;
         this.x = 700;
-        this.y = 500;
+        this.y = 450;
         this.width = 17;
         this.height = 17;
         this.speed = 4;
@@ -31,7 +32,7 @@ public class Football extends Entity{
 
     public void setDefaultValues(){
         this.x = 700;
-        this.y = 500;
+        this.y = 450;
     }
 
     public boolean intersects_wall(int cx, int cy){
@@ -66,6 +67,7 @@ public class Football extends Entity{
         // top part of the ball
         if(cx > this.x - gp.player.width * 6 && cx < this.x + this.width * 4){
             if(cy > this.y - gp.player.height * 6 && cy < this.y + this.height * 4 - gp.player.height * 6){
+                intersects_player = true;
                 return true;
             }
         }
@@ -73,6 +75,7 @@ public class Football extends Entity{
         // bottom part of the ball
         if(cx > this.x-gp.player.width * 6 && cx < this.x + this.width * 4){
             if(cy > this.y && cy < this.y + this.height * 4){
+                intersects_player = true;
                 return true;
             }
         }
@@ -80,6 +83,7 @@ public class Football extends Entity{
         // left part of the ball
         if(cx > this.x - gp.player.width * 6 && cx < this.x + this.width * 4 - gp.player.width * 6){
             if(cy > this.y - gp.player.height * 6 && cy < this.y + this.height * 4){
+                intersects_player = true;
                 return true;
             }
         }
@@ -87,6 +91,7 @@ public class Football extends Entity{
         // right part of the ball
         if(cx > this.x && cx < this.x + this.width * 4){
             if(cy > this.y - gp.player.height * 6 && cy < this.y + this.height * 4){
+                intersects_player = true;
                 return true;
             }
         }

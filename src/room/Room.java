@@ -19,6 +19,10 @@ public class Room {
     public BufferedImage prevArrow, nextArrow;
     public int mouseStatus = 0;
 
+    public boolean bed_pressed = false;
+    public boolean fridge_pressed = false;
+    public boolean bathtub_pressed = false;
+
     KeyHandler keyH;
     public Room(int type, KeyHandler keyH){
         this.room_type = type;
@@ -71,6 +75,24 @@ public class Room {
                     else {
                         room_type++;
                     }
+                }
+            }
+
+            if(room_type == 1){ // bedroom
+                if(x>112&&x<387&&y>403&&y<715){ // click on the bed
+                    bed_pressed = true;
+                }
+            }
+
+            if(room_type == 2){ // kitchen
+                if(x>1241&&x<1447&&y>108&&y<566){ // click on the fridge
+                    fridge_pressed = true;
+                }
+            }
+
+            if(room_type == 3){ // bathroom
+                if(x>150&&x<604&&y>163&&y<576){ // click on the bathtub
+                    bathtub_pressed = true;
                 }
             }
         }

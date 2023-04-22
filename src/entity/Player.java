@@ -2,32 +2,40 @@ package entity;
 
 import main.GamePanel;
 import main.KeyHandler;
-import room.Room;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.Key;
 import java.util.Objects;
-import java.util.Random;
 
 public class Player extends Entity{
-    GamePanel gp;
     KeyHandler keyH;
 
     boolean is_moving = false;
     public int next_x = 0, next_y = 0;
 
     public static int age = 0;
+    public Bar energy = new Bar("stuff/energy_bar_empty.png");
+    public Bar hunger = new Bar("stuff/food_bar.png");
+    public Bar fun = new Bar("stuff/fun_bar.png");
+    public Bar hygiene = new Bar("stuff/hygiene_bar.png");
 
-    public Player(GamePanel gp){
-        this.gp = gp;
+    private static Player instance;
+
+    private Player(){
         this.width = 13;
         this.height = 11;
         setDefaultValues();
         getPlayerImage();
+    }
+
+    public static Player getInstance(){
+        if(instance == null){
+            instance = new Player();
+        }
+        return instance;
     }
 
     public void getPlayerImage(){
@@ -57,7 +65,6 @@ public class Player extends Entity{
             if(age >= 2){
                 this.width = 32;
                 this.height = 38;
-                this.speed = 6;
                 if(x < next_x) {
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl_mirr.png")));
                 }
@@ -72,9 +79,8 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        x = 675;
-        y = 380;
-
+        x = 733;
+        y = 680 - this.height;
         speed = 4;
     }
 
@@ -95,6 +101,8 @@ public class Player extends Entity{
     }
 
     public boolean intersects_goal(int cx, int cy){
+        GamePanel gp = GamePanel.getInstance();
+
         // top part of the goal
         if(cx > gp.goal.x - this.width * 6 && cx < gp.goal.x + gp.goal.width * 9){
             if(cy > gp.goal.y - this.height * 6 && cy < gp.goal.y + gp.goal.height * 9 - this.height * 6){
@@ -127,6 +135,21 @@ public class Player extends Entity{
     }
 
     public void update(){
+        GamePanel gp = GamePanel.getInstance();
+
+        if(energy.level > 0){
+            energy.level -= 0.0001;
+        }
+        if(hunger.level > 0){
+            hunger.level -= 0.0002;
+        }
+        if(fun.level > 0){
+            fun.level -= 0.0003;
+        }
+        if(hygiene.level > 0){
+            hygiene.level -= 0.0001;
+        }
+
         if(gp.room.room_type == 4){
             if(gp.keyH.upPressed && !(this.intersects_wall(this.x, this.y - speed) || gp.football.intersects_player(this.x, this.y - speed) || this.intersects_goal(this.x, this.y - speed))){
                 this.y -= speed;
@@ -145,12 +168,12 @@ public class Player extends Entity{
         }
         else{
             if(!is_moving) {
-                int move = (int) (Math.random() * (300 - 0)) + 0;// probabilitatea sa se mute
+                int move = (int) (Math.random() * (300 - 0)) + 0;// movement probability
                 if(move == 7){
                     is_moving = true;
 
-                    next_x = (int) (Math.random() * (1000 - 375)) + 375;
-                    next_y = (int) (Math.random() * (460 - 300)) + 300;
+                    next_x = (int) (Math.random() * ((1090 - this.width * 6) - 384 )) + 384;
+                    next_y = (int) (Math.random() * ((750 - this.height * 6) - (540 - this.height * 6))) + (540 - this.height * 6);
 
                     next_x -= next_x % speed;
                     next_y -= next_y % speed;
@@ -192,4 +215,6 @@ public class Player extends Entity{
     public void draw(Graphics2D g2){
         g2.drawImage(image, x, y, width*6, height*6, null);
     }
+
+
 }
