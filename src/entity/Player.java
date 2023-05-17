@@ -17,6 +17,7 @@ public class Player extends Entity{
     public int next_x = 0, next_y = 0;
 
     public static int age = 0;
+    public static int gender = 1;
     public Bar energy = new Bar("stuff/energy_bar_empty.png");
     public Bar hunger = new Bar("stuff/food_bar.png");
     public Bar fun = new Bar("stuff/fun_bar.png");
@@ -38,38 +39,74 @@ public class Player extends Entity{
         return instance;
     }
 
+    public void dead(){
+        if(energy.level <= 0 && hunger.level <= 0){
+            GamePanel.getInstance().room.room_type = 6;
+        }
+    }
+
     public void getPlayerImage(){
         try{
-            if(age == 0){
-                this.width = 13;
-                this.height = 11;
-                if(x < next_x) {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl_mirr.png")));
+            if(gender == 1) {
+                if (age == 0) {
+                    this.width = 13;
+                    this.height = 11;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl.png")));
+                    }
                 }
-                else {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_girl.png")));
+
+                if (age == 1) {
+                    this.width = 21;
+                    this.height = 24;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl.png")));
+                    }
+                }
+
+                if (age >= 2) {
+                    this.width = 32;
+                    this.height = 38;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl.png")));
+                    }
                 }
             }
+            else{
+                if (age == 0) {
+                    this.width = 13;
+                    this.height = 11;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_boy_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/baby_boy.png")));
+                    }
+                }
 
-            if(age == 1){
-                this.width = 21;
-                this.height = 24;
-                if(x < next_x) {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl_mirr.png")));
+                if (age == 1) {
+                    this.width = 21;
+                    this.height = 24;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_boy_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_boy.png")));
+                    }
                 }
-                else {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_girl.png")));
-                }
-            }
 
-            if(age >= 2){
-                this.width = 32;
-                this.height = 38;
-                if(x < next_x) {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl_mirr.png")));
-                }
-                else {
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_girl.png")));
+                if (age >= 2) {
+                    this.width = 32;
+                    this.height = 38;
+                    if (x < next_x) {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_boy_mirr.png")));
+                    } else {
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/adult_boy.png")));
+                    }
                 }
             }
         }
@@ -137,16 +174,16 @@ public class Player extends Entity{
     public void update(){
         GamePanel gp = GamePanel.getInstance();
 
-        if(energy.level > 0){
-            energy.level -= 0.0001;
+        if(energy.level > -1){
+            energy.level -= 0.0006;
         }
-        if(hunger.level > 0){
-            hunger.level -= 0.0002;
+        if(hunger.level > -1){
+            hunger.level -= 0.0006;
         }
-        if(fun.level > 0){
+        if(fun.level > -1){
             fun.level -= 0.0003;
         }
-        if(hygiene.level > 0){
+        if(hygiene.level > -1){
             hygiene.level -= 0.0001;
         }
 
@@ -210,6 +247,7 @@ public class Player extends Entity{
             }
         }
         getPlayerImage();
+        dead();
     }
 
     public void draw(Graphics2D g2){

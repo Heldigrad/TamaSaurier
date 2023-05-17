@@ -1,5 +1,6 @@
 package room;
 
+import entity.Player;
 import main.KeyHandler;
 import main.MouseHandler;
 
@@ -46,16 +47,35 @@ public class Room {
             var y = MouseHandler.pos.getY();
 
             if(room_type == 0){ // menu
-                if(x>622&&x<913&&y>320&&y<354){
+                if(x>620&&x<913&&y>320&&y<354){
+                    room_type = 5; // egg_closeup
+                }
+                if(x>595&&x<917&&y>380&&y<450){
+                    System.out.println("da");
+                    Player.age = 2;
                     room_type = 1;
                 }
-                if(x>629&&x<914&&y>466&&y<491){
+                if(x>620&&x<913&&y>466&&y<491){
                     System.exit(0);
                 }
             }
             else if(room_type == 4){
                 if(x>0&&x<100&&y>0&&y<100){ // press the top left corner to return in the house
                     room_type = 1;
+                }
+            }
+            else if(room_type == 5){ // egg_closeup
+                if(x>0&&x<775&&y>0&&y<1000) {//left part of the screen
+                    Player.gender = 0; // boy
+                }
+                else{ //right part of the screen
+                    Player.gender = 1; // girl
+                }
+                room_type = 1; // bedroom
+            }
+            else if (room_type == 6){ // dead
+                if(x>0&&x<3000&&y>0&&y<2000) { // anywhere on the screen
+                    System.exit(0);
                 }
             }
             else{ // any other room
@@ -124,6 +144,15 @@ public class Room {
                 case 4: // football field
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/football_field.png")));
                     break;
+                case 5: // egg_closeup
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.jpg")));
+                    break;
+                case 6:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/dead.png")));
+                    break;
+                default:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
+                    break;
             }
         }
         catch(IOException e){
@@ -137,12 +166,21 @@ public class Room {
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
             g2.drawString("Start", 730, 321);
-            g2.drawString("Options", 710, 390);
+            g2.drawString("Load game", 680, 390);
             g2.drawString("Quit", 735, 460);
         }
-        if(room_type > 0 && room_type < 4){
+        else if(room_type > 0 && room_type < 4){
             g2.drawImage(prevArrow, 22, 340, 15*6, 15*6, null);
             g2.drawImage(nextArrow, 1438, 340, 15*6, 15*6, null);
+        }
+        else if(room_type == 5){
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            g2.drawString("Dino a eclozat! O sa avem un...", 500, 100);
+            g2.setColor(Color.cyan);
+            g2.drawString("TamaSaurier", 170, 300);
+            g2.setColor(Color.pink);
+            g2.drawString("TamaSaurierin", 1040, 300);
         }
     }
 

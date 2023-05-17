@@ -51,6 +51,13 @@ public class Football extends Entity{
         return false;
     }
 
+    public boolean intersects_flowers(int cx, int cy){
+        if(cx + this.width * 4 > 1247){ // right
+            return true;
+        }
+        return false;
+    }
+
     public boolean scored(int cx, int cy){
         // 708, 88 // 565, 893, 18
         if(cx > gp.goal.x && cx < gp.goal.x + gp.goal.width * 9 - this.width * 4){
@@ -115,6 +122,10 @@ public class Football extends Entity{
         if(scored(this.x, this.y)){
             setDefaultValues();
             this.score++;
+        }
+        if(intersects_flowers(this.x, this.y)){
+            setDefaultValues();
+            this.score-=100;
         }
     }
 
