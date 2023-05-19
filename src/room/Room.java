@@ -1,6 +1,7 @@
 package room;
 
 import entity.Player;
+import main.GamePanel;
 import main.KeyHandler;
 import main.MouseHandler;
 
@@ -59,9 +60,12 @@ public class Room {
                     System.exit(0);
                 }
             }
-            else if(room_type == 4){
+            else if(room_type == 4){ // football
                 if(x>0&&x<100&&y>0&&y<100){ // press the top left corner to return in the house
-                    room_type = 1;
+                    room_type = 1; // bedroom
+                }
+                if(x>0&&x<100&&y>650&&y<1000 && GamePanel.getInstance().player.getAge() == 2){ // press the top left corner to return in the house
+                    room_type = 8; // meteor mini game
                 }
             }
             else if(room_type == 5){ // egg_closeup
@@ -86,6 +90,21 @@ public class Room {
                         }
                     }
                 }
+            }
+            else if(room_type == 9){ // meteor_game_over
+                if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
+                    GamePanel.getInstance().meteor1.reset();
+                    room_type = 8; // meteor mini-game
+                }
+                else if(x>630&&x<890&&y>405&&y<450){
+                    GamePanel.getInstance().meteor1.reset();
+                    room_type = 1; // bedroom
+                }
+                //631; 295
+                //887; 351
+
+                //81; 384
+                //887; 426
             }
             else if (room_type == 6){ // dead
                 if(x>0&&x<3000&&y>0&&y<2000) { // anywhere on the screen
@@ -131,6 +150,13 @@ public class Room {
             }
         }
 
+        if(room_type == 8){ // meteor mini-game
+            if(GamePanel.getInstance().meteor1.getHits() > 2){
+                GamePanel.getInstance().meteor1.reset();
+                room_type = 9; // meteor_game_over
+            }
+        }
+
         if(keyH.escPressed){
             room_type = 0;
         }
@@ -147,7 +173,7 @@ public class Room {
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
                     break;
                 case 1: // bedroom
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom.png")));
                     break;
                 case 2: // kitchen
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/kitchen.png")));
@@ -169,6 +195,9 @@ public class Room {
                     break;
                 case 8:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
+                    break;
+                case 9:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_game_over.png")));
                     break;
                 default:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
@@ -195,6 +224,9 @@ public class Room {
         }
         else if(room_type == 4){
             g2.drawImage(prevArrow, 10, 10, 15*6, 15*6, null);
+            if(GamePanel.getInstance().player.getAge() == 2) {
+                g2.drawImage(nextArrow, 10, 670, 15 * 6, 15 * 6, null);
+            }
         }
         else if(room_type == 5){ // egg_closeup
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
@@ -230,6 +262,13 @@ public class Room {
                 g2.setColor(Color.pink);
                 g2.drawString("TamaSaurierin", 1000, 400);
             }
+        }
+        else if(room_type == 9){
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            g2.drawString("Try again", 700, 333);
+            g2.drawString(" Give up", 700, 410);
+            g2.drawString(" Score: " + GamePanel.getInstance().meteor1.getScore(), 700, 490);
         }
 
     }

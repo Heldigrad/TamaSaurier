@@ -1,7 +1,6 @@
 package entity;
 
 import main.GamePanel;
-import main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -27,7 +26,7 @@ public class Player extends Entity{
         this.width = 13;
         this.height = 11;
         setDefaultValues();
-        getPlayerImage();
+        setPlayerImage();
     }
 
     //player instance
@@ -46,7 +45,7 @@ public class Player extends Entity{
     }
 
     //function for choosing the correct dinosaur skin
-    public void getPlayerImage(){
+    public void setPlayerImage(){
         try{
             if(gender == 1) {
                 if (age == 0) {
@@ -211,6 +210,17 @@ public class Player extends Entity{
                 next_x = x + 1;
             }
         }
+        else if(gp.room.room_type == 8){ // meteor mini game
+            y = 550 - this.height;
+            if(gp.keyH.leftPressed && !(this.intersects_wall(this.x - speed, this.y))) {
+                x -= 6; // higher speed than usual
+                next_x = x - 1;
+            }
+            if(gp.keyH.rightPressed && !(this.intersects_wall(this.x + speed, this.y))) {
+                x += 6; // higher speed than usual
+                next_x = x + 1;
+            }
+        }
         else{
             if(!is_moving) {
                 int move = (int) (Math.random() * (300 - 0)) + 0;// movement probability
@@ -223,7 +233,7 @@ public class Player extends Entity{
                     next_x -= next_x % speed;
                     next_y -= next_y % speed;
 
-                    getPlayerImage();
+                    setPlayerImage();
                 }
             }
             else{// is_moving
@@ -254,8 +264,12 @@ public class Player extends Entity{
                 }
             }
         }
-        getPlayerImage();
+        setPlayerImage();
         dead();
+    }
+
+    public int getAge(){
+        return age;
     }
 
     //function that draws the player on the screen
