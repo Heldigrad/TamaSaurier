@@ -10,7 +10,7 @@ public class Bar{
     public float level = 1;
     public BufferedImage bar;
 
-    Bar(String imgSrc) {
+    Bar(String imgSrc) { // constructor
         try {
             bar = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(imgSrc)));
         } catch (IOException e) {

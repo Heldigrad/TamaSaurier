@@ -5,17 +5,12 @@ import main.KeyHandler;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Player extends Entity{
-    KeyHandler keyH;
-
-    boolean is_moving = false;
-    public int next_x = 0, next_y = 0;
-
+    //dinosaur characteristics:
+    private static Player instance;
     public static int age = 0;
     public static int gender = 1;
     public Bar energy = new Bar("stuff/energy_bar_empty.png");
@@ -23,8 +18,11 @@ public class Player extends Entity{
     public Bar fun = new Bar("stuff/fun_bar.png");
     public Bar hygiene = new Bar("stuff/hygiene_bar.png");
 
-    private static Player instance;
+    //dinosaur movement:
+    boolean is_moving = false;
+    public int next_x = 0, next_y = 0;
 
+    //constructor:
     private Player(){
         this.width = 13;
         this.height = 11;
@@ -32,6 +30,7 @@ public class Player extends Entity{
         getPlayerImage();
     }
 
+    //player instance
     public static Player getInstance(){
         if(instance == null){
             instance = new Player();
@@ -39,12 +38,14 @@ public class Player extends Entity{
         return instance;
     }
 
+    //function that checks death conditions
     public void dead(){
         if(energy.level <= 0 && hunger.level <= 0){
             GamePanel.getInstance().room.room_type = 6;
         }
     }
 
+    //function for choosing the correct dinosaur skin
     public void getPlayerImage(){
         try{
             if(gender == 1) {
@@ -90,8 +91,11 @@ public class Player extends Entity{
                 }
 
                 if (age == 1) {
-                    this.width = 21;
+                    this.width = 20;
                     this.height = 24;
+                    if(gender == 0) { // girl
+                        this.width = 21;
+                    }
                     if (x < next_x) {
                         image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("dinos/teen_boy_mirr.png")));
                     } else {
@@ -115,12 +119,14 @@ public class Player extends Entity{
         }
     }
 
+    //default player position
     public void setDefaultValues(){
         x = 733;
         y = 680 - this.height;
         speed = 4;
     }
 
+    //function that checks if the dinosaur intersects room margins
     public boolean intersects_wall(int cx, int cy){
         if(cy <= 0){ // top
             return true;
@@ -137,6 +143,7 @@ public class Player extends Entity{
         return false;
     }
 
+    //function that checks if the dinosaur intersects the goal in the football mini game
     public boolean intersects_goal(int cx, int cy){
         GamePanel gp = GamePanel.getInstance();
 
@@ -171,14 +178,15 @@ public class Player extends Entity{
         return false;
     }
 
+    //function that updates player position
     public void update(){
         GamePanel gp = GamePanel.getInstance();
 
         if(energy.level > -1){
-            energy.level -= 0.0006;
+            energy.level -= 0.0001;
         }
         if(hunger.level > -1){
-            hunger.level -= 0.0006;
+            hunger.level -= 0.0002;
         }
         if(fun.level > -1){
             fun.level -= 0.0003;
@@ -250,9 +258,8 @@ public class Player extends Entity{
         dead();
     }
 
+    //function that draws the player on the screen
     public void draw(Graphics2D g2){
         g2.drawImage(image, x, y, width*6, height*6, null);
     }
-
-
 }

@@ -13,11 +13,10 @@ public class Main {
         window.setTitle("TamaSaurier"); // the window's name
 
         MouseHandler mouse = new MouseHandler();
+        window.addMouseListener(mouse);
 
         GamePanel gamePanel = GamePanel.getInstance();
         window.add(gamePanel);
-
-        window.addMouseListener(mouse);
 
         window.pack();
 

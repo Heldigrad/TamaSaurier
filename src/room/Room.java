@@ -5,11 +5,9 @@ import main.KeyHandler;
 import main.MouseHandler;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Objects;
 
 public class Room {
@@ -23,6 +21,8 @@ public class Room {
     public boolean bed_pressed = false;
     public boolean fridge_pressed = false;
     public boolean bathtub_pressed = false;
+
+    private int frame = 0;
 
     KeyHandler keyH;
     public Room(int type, KeyHandler keyH){
@@ -65,13 +65,27 @@ public class Room {
                 }
             }
             else if(room_type == 5){ // egg_closeup
-                if(x>0&&x<775&&y>0&&y<1000) {//left part of the screen
-                    Player.gender = 0; // boy
+                if(x>0&&x<3000&&y>0&&y<2000){ // on click anywhere
+                    frame++;
+                    if(frame > 3){
+                        room_type = 7; // egg_at_home
+                    }
                 }
-                else{ //right part of the screen
-                    Player.gender = 1; // girl
+            }
+            else if(room_type == 7){ // egg_at_home
+                if(x>0&&x<3000&&y>0&&y<2000){ // press anywhere
+                    frame++;
+                    if(frame > 7){//to be corrected/checked
+                        if(x>0&&x<700&&y>0&&y<2000) { // click on the left part of the screen
+                            Player.gender = 0; // boy
+                            room_type = 1; // bedroom
+                        }
+                        else{
+                            Player.gender = 1; // girl
+                            room_type = 1; // bedroom
+                        }
+                    }
                 }
-                room_type = 1; // bedroom
             }
             else if (room_type == 6){ // dead
                 if(x>0&&x<3000&&y>0&&y<2000) { // anywhere on the screen
@@ -145,10 +159,16 @@ public class Room {
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/football_field.png")));
                     break;
                 case 5: // egg_closeup
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.jpg")));
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.png")));
                     break;
                 case 6:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/dead.png")));
+                    break;
+                case 7:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_at_home.png")));
+                    break;
+                case 8:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
                     break;
                 default:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
@@ -173,15 +193,45 @@ public class Room {
             g2.drawImage(prevArrow, 22, 340, 15*6, 15*6, null);
             g2.drawImage(nextArrow, 1438, 340, 15*6, 15*6, null);
         }
-        else if(room_type == 5){
+        else if(room_type == 4){
+            g2.drawImage(prevArrow, 10, 10, 15*6, 15*6, null);
+        }
+        else if(room_type == 5){ // egg_closeup
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
-            g2.drawString("Dino a eclozat! O sa avem un...", 500, 100);
-            g2.setColor(Color.cyan);
-            g2.drawString("TamaSaurier", 170, 300);
-            g2.setColor(Color.pink);
-            g2.drawString("TamaSaurierin", 1040, 300);
+            g2.drawString("Click anywhere to continue...", 1000, 700);
+            if(frame == 1) {
+                g2.drawString("Wow! Such a colorful... thing!", 500, 100);
+            }
+            if(frame == 2) {
+                g2.drawString("I must have it!", 500, 100);
+            }
+            if(frame == 3) {
+                g2.drawString("I'll bring it back home :) !", 500, 100);
+            }
         }
+        else if(room_type == 7){ // egg_at_home
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            g2.drawString("Click anywhere to continue...", 1000, 700);
+            if(frame == 4) {
+                g2.drawString("You can sit on my bean bag, special thing!", 500, 100);
+            }
+            if(frame == 5) {
+                g2.drawString("ker-ack! kerr...ker-ack!!", 500, 100);
+            }
+            if(frame == 6) {
+                g2.drawString("What on God's green Earth?!", 500, 100);
+            }
+            if(frame == 7) {
+                g2.drawString("It's a...", 1000, 100);
+                g2.setColor(Color.cyan);
+                g2.drawString("TamaSaurier", 300, 400);
+                g2.setColor(Color.pink);
+                g2.drawString("TamaSaurierin", 1000, 400);
+            }
+        }
+
     }
 
 }

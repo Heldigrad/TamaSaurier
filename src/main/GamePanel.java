@@ -73,12 +73,12 @@ public class GamePanel extends JPanel implements Runnable{
                 startTime = System.nanoTime();
             }
 
-            if(currentTime/1000000 > startTime/1000000 + 200000){
+            if(currentTime/1000000 > startTime/1000000 + 200000 && entity.Player.age == 1){
                 if(room.room_type != 4) {
                     entity.Player.age = 2;
                 }
             }
-            else if(currentTime/1000000 > startTime/1000000 + 100000){
+            else if(currentTime/1000000 > startTime/1000000 + 100000 && entity.Player.age == 0){
                 if(room.room_type != 4) {
                     entity.Player.age = 1;
                 }
@@ -136,7 +136,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6) {
+        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7) {
             player.draw(g2);
             if(room.room_type == 4){
                 football.draw(g2);
