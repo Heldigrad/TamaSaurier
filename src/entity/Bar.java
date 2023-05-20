@@ -20,8 +20,9 @@ public class Bar{
 
     public void draw(Graphics2D g2, Color color, int x, int y) {
         g2.setColor(color);
-        g2.drawRoundRect(x, y, (int) (19*8 * level), 35, 50, 50);
-        g2.fillRoundRect(x, y, (int) (19*8 * level), 35, 50, 50);
+
+        g2.drawRoundRect(x, y, (int) (level>1 ? 18*8 : 19*8 * level), 35, 50, 50);
+        g2.fillRoundRect(x, y, (int) (level>1 ? 18*8 : 19*8 * level), 35, 50, 50);
         g2.drawImage(bar, x-35, y-28, 30*8, 10*8, null);
     }
 }

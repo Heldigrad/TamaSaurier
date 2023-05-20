@@ -1,9 +1,6 @@
 package main;
 
-import entity.Football;
-import entity.Goal;
-import entity.Meteor;
-import entity.Player;
+import entity.*;
 import room.Room;
 
 import javax.swing.*;
@@ -47,6 +44,17 @@ public class GamePanel extends JPanel implements Runnable{
     public Meteor meteor3 = new Meteor(4);
     public Meteor meteor4 = new Meteor(6);
 
+    // food
+    public Food food1 = new Food((int)(Math.random() * (15) + 0));
+    public Food food2 = new Food((int)(Math.random() * (15) + 0));
+    public Food food3 = new Food((int)(Math.random() * (15) + 0));
+    public Food food4 = new Food((int)(Math.random() * (15) + 0));
+    public Food food5 = new Food((int)(Math.random() * (15) + 0));
+    public Food food6 = new Food((int)(Math.random() * (15) + 0));
+    public Food food7 = new Food((int)(Math.random() * (15) + 0));
+    public Food food8 = new Food((int)(Math.random() * (15) + 0));
+    public Food food9 = new Food((int)(Math.random() * (15) + 0));
+    boolean change = false;
 
     private static GamePanel instance;
 
@@ -75,12 +83,13 @@ public class GamePanel extends JPanel implements Runnable{
     @Override
     public void run() { // a game loop
 
-        double drawInterval = 1000000000 / FPS; // 1 billion nanoseconds / FPS
+        double drawInterval = (double) 1000000000 / FPS; // 1 billion nanoseconds / FPS
         double nextDrawTime = System.nanoTime() + drawInterval;
 
+        long foodChange = 0;
         while(gameThread != null){
-
             long currentTime = System.nanoTime();
+
             if(startTime == 0) {
                 startTime = System.nanoTime();
             }
@@ -94,6 +103,14 @@ public class GamePanel extends JPanel implements Runnable{
                 if(room.room_type != 4 && room.room_type != 8) {
                     entity.Player.age = 1;
                 }
+            }
+
+            if(foodChange/1000000 + 10000 < currentTime/1000000){
+                foodChange = currentTime;
+                change = true;
+            }
+            else{
+                change = false;
             }
 
             //1.UPDATE - update information (ex. character position)
@@ -135,6 +152,18 @@ public class GamePanel extends JPanel implements Runnable{
             meteor4.update();
         }
 
+        if(change){
+            food1.update((int)(Math.random() * (15) + 0));
+            food2.update((int)(Math.random() * (15) + 0));
+            food3.update((int)(Math.random() * (15) + 0));
+            food4.update((int)(Math.random() * (15) + 0));
+            food5.update((int)(Math.random() * (15) + 0));
+            food6.update((int)(Math.random() * (15) + 0));
+            food7.update((int)(Math.random() * (15) + 0));
+            food8.update((int)(Math.random() * (15) + 0));
+            food9.update((int)(Math.random() * (15) + 0));
+        }
+
         if(room.bed_pressed){
             player.energy.level = 1;
             room.bed_pressed = false;
@@ -159,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9) {
+        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9 && room.room_type != 10) {
             player.draw(g2);
             if(room.room_type == 4){ // football mini-game
                 football.draw(g2);
@@ -186,6 +215,36 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
 
+        else if(room.room_type == 10){
+            player.hunger.draw(g2, Color.yellow, 65, 55);
+            if(food1.visible){
+                food1.draw(g2, 430, 210);
+            }
+            if(food2.visible){
+                food2.draw(g2, 715, 210);
+            }
+            if(food3.visible){
+                food3.draw(g2, 990, 210);
+            }
+            if(food4.visible){
+                food4.draw(g2, 430, 430);
+            }
+            if(food5.visible){
+                food5.draw(g2, 715, 430);
+            }
+            if(food6.visible){
+                food6.draw(g2, 990, 430);
+            }
+            if(food7.visible){
+                food7.draw(g2, 430, 620);
+            }
+            if(food8.visible){
+                food8.draw(g2, 715, 620);
+            }
+            if(food9.visible){
+                food9.draw(g2, 990, 620);
+            }
+        }
         g2.dispose();
     }
 }

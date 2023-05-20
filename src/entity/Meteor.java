@@ -161,8 +161,6 @@ public class Meteor extends Entity{
             setX((int) (Math.random() * (1500 - width - 0) + 0));
             setMeteorImage((int) (Math.random() * (7 - 0) + 0));
             this.y  = -height*6;
-
-
         }
     }
 

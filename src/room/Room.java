@@ -93,18 +93,13 @@ public class Room {
             }
             else if(room_type == 9){ // meteor_game_over
                 if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
-                    GamePanel.getInstance().meteor1.reset();
                     room_type = 8; // meteor mini-game
+                    GamePanel.getInstance().meteor1.reset();
                 }
                 else if(x>630&&x<890&&y>405&&y<450){
                     GamePanel.getInstance().meteor1.reset();
                     room_type = 1; // bedroom
                 }
-                //631; 295
-                //887; 351
-
-                //81; 384
-                //887; 426
             }
             else if (room_type == 6){ // dead
                 if(x>0&&x<3000&&y>0&&y<2000) { // anywhere on the screen
@@ -139,7 +134,7 @@ public class Room {
 
             if(room_type == 2){ // kitchen
                 if(x>1241&&x<1447&&y>108&&y<566){ // click on the fridge
-                    fridge_pressed = true;
+                    room_type = 10; // open_fridge
                 }
             }
 
@@ -148,11 +143,84 @@ public class Room {
                     bathtub_pressed = true;
                 }
             }
+
+            if(room_type == 10){ // open_fridge
+                if(Player.getInstance().hunger.level < 1) {
+                    if (x > 416 && x < 545 && y > 182 && y < 295) { // food (1, 1)
+                        if (GamePanel.getInstance().food1.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food1.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food1);
+                            GamePanel.getInstance().food1.visible = false;
+                        }
+                    }
+                    if (x > 674 && x < 806 && y > 182 && y < 295) { // food (1, 2)
+                        if (GamePanel.getInstance().food2.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food2.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food2);
+                            GamePanel.getInstance().food2.visible = false;
+                        }
+                    }
+                    if (x > 956 && x < 1102 && y > 182 && y < 295) { // food (1, 3)
+                        if (GamePanel.getInstance().food3.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food3.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food3);
+                            GamePanel.getInstance().food3.visible = false;
+                        }
+                    }
+                    if (x > 416 && x < 545 && y > 387 && y < 517) { // food (2, 1)
+                        if (GamePanel.getInstance().food4.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food4.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food4);
+                            GamePanel.getInstance().food3.visible = false;
+                        }
+                    }
+                    if (x > 674 && x < 806 && y > 387 && y < 517) { // food (2, 2)
+                        if (GamePanel.getInstance().food5.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food5.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food5);
+                            GamePanel.getInstance().food5.visible = false;
+                        }
+                    }
+                    if (x > 956 && x < 1102 && y > 387 && y < 517) { // food (2, 3)
+                        if (GamePanel.getInstance().food6.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food6.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food6);
+                            GamePanel.getInstance().food6.visible = false;
+                        }
+                    }
+                    if (x > 416 && x < 545 && y > 600 && y < 720) { // food (3, 1)
+                        if (GamePanel.getInstance().food7.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food7.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food7);
+                            GamePanel.getInstance().food7.visible = false;
+                        }
+                    }
+                    if (x > 674 && x < 806 && y > 600 && y < 720) { // food (3, 2)
+                        if (GamePanel.getInstance().food8.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food8.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food8);
+                            GamePanel.getInstance().food8.visible = false;
+                        }
+                    }
+                    if (x > 956 && x < 1102 && y > 600 && y < 720) { // food (3, 3)
+                        if (GamePanel.getInstance().food9.visible) {
+                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food9.saturation;
+                            Player.getInstance().setAffinities(GamePanel.getInstance().food9);
+                            GamePanel.getInstance().food9.visible = false;
+                        }
+                    }
+                    if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
+                        room_type = 2; // kitchen
+                    }
+                        if(Player.getInstance().meat_affinity == 1){
+                        System.out.println("carnecarnecarne");
+                    }
+                }
+            }
         }
 
         if(room_type == 8){ // meteor mini-game
             if(GamePanel.getInstance().meteor1.getHits() > 2){
-                GamePanel.getInstance().meteor1.reset();
                 room_type = 9; // meteor_game_over
             }
         }
@@ -198,6 +266,9 @@ public class Room {
                     break;
                 case 9:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_game_over.png")));
+                    break;
+                case 10:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/open_fridge.png")));
                     break;
                 default:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));

@@ -121,11 +121,15 @@ public class Football extends Entity{
         }
         if(scored(this.x, this.y)){
             setDefaultValues();
-            this.score++;
+            this.score += 5;
         }
         if(intersects_flowers(this.x, this.y)){
             setDefaultValues();
-            this.score-=100;
+            this.score -= 100;
+        }
+        if(intersects_wall(this.x, this.y - this.speed) || intersects_wall(this.x, this.y + this.speed) || intersects_wall(this.x - this.speed, this.y) || intersects_wall(this.x - this.speed, this.y)){
+            setDefaultValues();
+            this.score -= 20;
         }
     }
 

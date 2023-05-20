@@ -17,6 +17,11 @@ public class Player extends Entity{
     public Bar fun = new Bar("stuff/fun_bar.png");
     public Bar hygiene = new Bar("stuff/hygiene_bar.png");
 
+    public int meat_affinity = 0;
+    public int veggie_affinity = 0;
+    public int milk_affinity = 0;
+    public int sweet_affinity = 0;
+
     //dinosaur movement:
     boolean is_moving = false;
     public int next_x = 0, next_y = 0;
@@ -270,6 +275,13 @@ public class Player extends Entity{
 
     public int getAge(){
         return age;
+    }
+
+    public void setAffinities(Food food){
+        meat_affinity += (food.meat) ? 1 : 0;
+        veggie_affinity += (food.veggie) ? 1 : 0;
+        milk_affinity += (food.milk) ? 1 : 0;
+        sweet_affinity += (food.sweet) ? 1 : 0;
     }
 
     //function that draws the player on the screen
