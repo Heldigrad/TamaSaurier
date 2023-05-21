@@ -212,7 +212,7 @@ public class GamePanel extends JPanel implements Runnable{
                 if(football.score > high_score_football){
                     high_score_football = football.score;
                 }
-                g2.drawString("High Score: " + high_score_football, 1300, 70);
+                g2.drawString("High Score: " + high_score_football, 1300, 80);
             }
             else if(room.room_type == 8){ // meteor mini-game
                 meteor1.draw(g2);

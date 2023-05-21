@@ -80,14 +80,6 @@ public class Card extends Entity{
         }
     }
 
-    public static void printMatrix(Card[][] cards){
-        for (int i = 0; i < cards.length; ++i) {
-            for(int j = 0; j < cards[0].length; ++j) {
-                System.out.println(cards[i][j].type + " ");
-            }
-        }
-    }
-
     public static void card_click(Card[][] cards, int x, int y) {
         Card aux;
 
@@ -166,13 +158,13 @@ public class Card extends Entity{
         }
         if(level == 1){
             n = 4; m = 2;
-            layouti = new int[]{140, 460, 850, 1130};
+            layouti = new int[]{390, 575, 775, 970};
             layoutj = new int[]{150, 390};
         }
         if(level > 1){
             n = 4; m = 3;
-            layouti = new int[]{215, 500, 800, 1048};
-            layoutj = new int[]{60, 286, 490};
+            layouti = new int[]{390, 575, 775, 970};
+            layoutj = new int[]{60, 276, 490};
         }
 
         Card[][] game = new Card[n][m];
@@ -188,22 +180,8 @@ public class Card extends Entity{
                 }
             }
         }
-        printMatrix(game);
-        System.out.println("da");
         shuffle_matrix(game);
-        System.out.println("da");
-        printMatrix(game);
-
         return game;
-    }
-
-    public static void update(Card[][] cards){
-        shuffle_matrix(cards);
-        for (int i = 0; i < cards.length; ++i) {
-            for (int j = 0; j < cards[0].length; ++j) {
-                cards[i][j].setImage(cards[i][j].type);
-            }
-        }
     }
 
     public static void resize(int level){

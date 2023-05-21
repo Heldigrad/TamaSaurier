@@ -69,7 +69,7 @@ public class Room {
                 if(x>0&&x<100&&y>650&&y<1000 && GamePanel.getInstance().player.getAge() > 0){ // next arrow, botton left
                     room_type = 11; // meteor mini game
                 }
-                if(x>1412&&x<1490&&y>672&&y<742 && GamePanel.getInstance().player.getAge() > 1){ // next arrow, bottom right
+                if(x>1400&&x<2000&&y>672&&y<1000 && GamePanel.getInstance().player.getAge() > 1){ // next arrow, bottom right
                     room_type = 8; // meteor mini game
                 }
             }
@@ -97,6 +97,13 @@ public class Room {
                     }
                 }
             }
+            if(room_type == 8){ // meteor mini-game
+                if(x>0&&x<100&&y>0&&y<100){ // reset game / try again
+                    GamePanel.getInstance().meteor1.reset();
+                    room_type = 1; // meteor mini-game
+                }
+            }
+
             if(room_type == 9){ // meteor_game_over
                 if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
                     GamePanel.getInstance().meteor1.reset();
@@ -231,7 +238,7 @@ public class Room {
                 if (x > 0 && x < 199 && y > 0 && y < 100) { // top left part of the screen
                     room_type = 4; //
                 }
-                if(GamePanel.getInstance().done && GamePanel.getInstance().stage == 3){
+                if(GamePanel.getInstance().done && GamePanel.getInstance().stage == 4){
                     Card.resize(1);
                 }
                 else if(GamePanel.getInstance().done && GamePanel.getInstance().stage == 6){
@@ -239,10 +246,10 @@ public class Room {
                 }
             }
 
-            if(room_type == 12){
+            if(room_type == 12){ // card_game_over
                 GamePanel.getInstance().started = false;
                 Card.resize(0);
-                if (x > 590 && x < 895 && y > 320 && y < 375) { // Try again
+                if (x > 590 && x < 895 && y > 320 && y < 385) { // Try again
                     room_type = 11; // card mini-game
                     GamePanel.getInstance().stage = 0;
                 }
@@ -263,7 +270,7 @@ public class Room {
                 GamePanel.getInstance().timer = System.nanoTime();
                 GamePanel.getInstance().started = true;
             }
-            if(GamePanel.getInstance().timer + 10L * 1000000000 < System.nanoTime()){
+            if(GamePanel.getInstance().timer + 60L * 1000000000 < System.nanoTime()){
                 room_type = 12; // game_over
                 GamePanel.getInstance().started = false;
             }
@@ -365,10 +372,10 @@ public class Room {
         else if(room_type == 4){
             g2.drawImage(prevArrow, 10, 10, 15*6, 15*6, null);
             if(GamePanel.getInstance().player.getAge() > 1) {
-                g2.drawImage(nextArrow, 10, 670, 15 * 6, 15 * 6, null);
+                g2.drawImage(nextArrow, 1410, 670, 15 * 6, 15 * 6, null);
             }
             if(GamePanel.getInstance().player.getAge() > 0) {
-                g2.drawImage(nextArrow, 1410, 670, 15 * 6, 15 * 6, null);
+                g2.drawImage(nextArrow, 10, 670, 15 * 6, 15 * 6, null);
             }
         }
         else if(room_type == 5){ // egg_closeup
@@ -409,28 +416,28 @@ public class Room {
         else if(room_type == 9){
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
-            g2.drawString("Try again", 700, 333);
-            g2.drawString(" Give up", 700, 410);
-            g2.drawString(" Score: " + GamePanel.getInstance().meteor1.getScore(), 670, 490);
+            g2.drawString("Try again", 680, 333);
+            g2.drawString(" Give up", 680, 410);
+            g2.drawString(" Score: " + GamePanel.getInstance().meteor1.getScore(), 680, 490);
             if(GamePanel.getInstance().meteor1.getScore() >= GamePanel.getInstance().high_score_meteor){
-                g2.drawString("New High Score!", 605, 555);
+                g2.drawString("New High Score!", 625, 555);
                 GamePanel.getInstance().high_score_meteor = GamePanel.getInstance().meteor1.getScore();
             }
-            g2.drawString("High Score: " + GamePanel.getInstance().high_score_meteor, 635, 520);
+            g2.drawString("High Score: " + GamePanel.getInstance().high_score_meteor, 650, 520);
         }
         else if(room_type == 12){
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
-            g2.setColor(Color.pink);
+            g2.setColor(Color.magenta);
             if(GamePanel.getInstance().stage >= GamePanel.getInstance().high_score_card){
                 GamePanel.getInstance().high_score_card = GamePanel.getInstance().stage;
-                g2.drawString(" New High score!", 600, 550);
+                g2.drawString(" New High score!", 615, 560);
             }
             g2.setColor(Color.white);
-            g2.drawString("Try again", 668, 380);
-            g2.drawString(" Give up", 672, 450);
-            g2.setColor(Color.pink);
-            g2.drawString("You reached: stage " + GamePanel.getInstance().stage, 600, 490);
-            g2.drawString("High score: " + GamePanel.getInstance().high_score_card, 600, 520);
+            g2.drawString("Try again", 675, 363);
+            g2.drawString(" Give up", 675, 440);
+            g2.setColor(Color.magenta);
+            g2.drawString("You reached: stage " + GamePanel.getInstance().stage, 582, 495);
+            g2.drawString("High score: " + GamePanel.getInstance().high_score_card, 650, 527);
         }
     }
 
