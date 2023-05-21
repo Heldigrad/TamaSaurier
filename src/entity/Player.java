@@ -16,6 +16,10 @@ public class Player extends Entity{
     public Bar hunger = new Bar("stuff/food_bar.png");
     public Bar fun = new Bar("stuff/fun_bar.png");
     public Bar hygiene = new Bar("stuff/hygiene_bar.png");
+    public double energy_drainage = 0;
+    public double hunger_drainage = 0;
+    public double fun_drainage = 0;
+    public double hygene_drainage = 0;
 
     public int meat_affinity = 0;
     public int veggie_affinity = 0;
@@ -54,6 +58,10 @@ public class Player extends Entity{
         try{
             if(gender == 1) {
                 if (age == 0) {
+                    this.energy_drainage = 0.0001;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0003;
+                    this.hygene_drainage = 0.0003;
                     this.width = 13;
                     this.height = 11;
                     if (x < next_x) {
@@ -64,6 +72,10 @@ public class Player extends Entity{
                 }
 
                 if (age == 1) {
+                    this.energy_drainage = 0.0001;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0002;
+                    this.hygene_drainage = 0.0001;
                     this.width = 21;
                     this.height = 24;
                     if (x < next_x) {
@@ -74,6 +86,10 @@ public class Player extends Entity{
                 }
 
                 if (age >= 2) {
+                    this.energy_drainage = 0.0002;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0001;
+                    this.hygene_drainage = 0.0001;
                     this.width = 32;
                     this.height = 38;
                     if (x < next_x) {
@@ -85,6 +101,10 @@ public class Player extends Entity{
             }
             else{
                 if (age == 0) {
+                    this.energy_drainage = 0.0001;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0003;
+                    this.hygene_drainage = 0.0003;
                     this.width = 13;
                     this.height = 11;
                     if (x < next_x) {
@@ -95,6 +115,10 @@ public class Player extends Entity{
                 }
 
                 if (age == 1) {
+                    this.energy_drainage = 0.0001;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0002;
+                    this.hygene_drainage = 0.0001;
                     this.width = 20;
                     this.height = 24;
                     if(gender == 0) { // girl
@@ -108,6 +132,10 @@ public class Player extends Entity{
                 }
 
                 if (age >= 2) {
+                    this.energy_drainage = 0.0002;
+                    this.hunger_drainage = 0.0002;
+                    this.fun_drainage = 0.0001;
+                    this.hygene_drainage = 0.0001;
                     this.width = 32;
                     this.height = 38;
                     if (x < next_x) {
@@ -126,7 +154,7 @@ public class Player extends Entity{
     //default player position
     public void setDefaultValues(){
         x = 733;
-        y = 680 - this.height;
+        y = 600 - this.height;
         speed = 4;
     }
 
@@ -187,16 +215,16 @@ public class Player extends Entity{
         GamePanel gp = GamePanel.getInstance();
 
         if(energy.level > -1){
-            energy.level -= 0.0001;
+            energy.level -= energy_drainage;
         }
         if(hunger.level > -1){
-            hunger.level -= 0.0002;
+            hunger.level -= hunger_drainage;
         }
         if(fun.level > -1){
-            fun.level -= 0.0003;
+            fun.level -= fun_drainage;
         }
         if(hygiene.level > -1){
-            hygiene.level -= 0.0001;
+            hygiene.level -= hygene_drainage;
         }
 
         if(gp.room.room_type == 4){
