@@ -1,5 +1,6 @@
 package room;
 
+import entity.Card;
 import entity.Player;
 import main.GamePanel;
 import main.KeyHandler;
@@ -60,15 +61,20 @@ public class Room {
                     System.exit(0);
                 }
             }
+
             else if(room_type == 4){ // football
-                if(x>0&&x<100&&y>0&&y<100){ // press the top left corner to return in the house
+                if(x>0&&x<100&&y>0&&y<100){ // back arrow
                     room_type = 1; // bedroom
                 }
-                if(x>0&&x<100&&y>650&&y<1000 && GamePanel.getInstance().player.getAge() == 2){ // press the top left corner to return in the house
+                if(x>0&&x<100&&y>650&&y<1000 && GamePanel.getInstance().player.getAge() > 0){ // next arrow, botton left
+                    room_type = 11; // meteor mini game
+                }
+                if(x>1400&&x<2000&&y>672&&y<1000 && GamePanel.getInstance().player.getAge() > 1){ // next arrow, bottom right
                     room_type = 8; // meteor mini game
                 }
             }
-            else if(room_type == 5){ // egg_closeup
+
+            if(room_type == 5){ // egg_closeup
                 if(x>0&&x<3000&&y>0&&y<2000){ // on click anywhere
                     frame++;
                     if(frame > 3){
@@ -76,7 +82,7 @@ public class Room {
                     }
                 }
             }
-            else if(room_type == 7){ // egg_at_home
+            if(room_type == 7){ // egg_at_home
                 if(x>0&&x<3000&&y>0&&y<2000){ // press anywhere
                     frame++;
                     if(frame > 7){//to be corrected/checked
@@ -91,13 +97,19 @@ public class Room {
                     }
                 }
             }
-            else if(room_type == 9){ // meteor_game_over
-                if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
-                    room_type = 8; // meteor mini-game
+            if(room_type == 8){ // meteor mini-game
+                if(x>0&&x<100&&y>0&&y<100){ // reset game / try again
                     GamePanel.getInstance().meteor1.reset();
+                    room_type = 1; // meteor mini-game
+                }
+            }
+
+            if(room_type == 9){ // meteor_game_over
+                if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
+                    GamePanel.getInstance().meteor1.reset();
+                    room_type = 8; // meteor mini-game
                 }
                 else if(x>630&&x<890&&y>405&&y<450){
-                    GamePanel.getInstance().meteor1.reset();
                     room_type = 1; // bedroom
                 }
             }
@@ -125,20 +137,19 @@ public class Room {
                     }
                 }
             }
-
             if(room_type == 1){ // bedroom
                 if(x>112&&x<387&&y>403&&y<715){ // click on the bed
                     bed_pressed = true;
                 }
             }
 
-            if(room_type == 2){ // kitchen
+            else if(room_type == 2){ // kitchen
                 if(x>1241&&x<1447&&y>108&&y<566){ // click on the fridge
                     room_type = 10; // open_fridge
                 }
             }
 
-            if(room_type == 3){ // bathroom
+            else if(room_type == 3){ // bathroom
                 if(x>150&&x<604&&y>163&&y<576){ // click on the bathtub
                     bathtub_pressed = true;
                 }
@@ -209,12 +220,41 @@ public class Room {
                             GamePanel.getInstance().food9.visible = false;
                         }
                     }
-                    if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
+
+                    else if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
                         room_type = 2; // kitchen
                     }
-                        if(Player.getInstance().meat_affinity == 1){
+                    if(Player.getInstance().meat_affinity == 1){
                         System.out.println("carnecarnecarne");
                     }
+                }
+            }
+
+            if(room_type == 11){ // card game
+                if (!GamePanel.getInstance().wait) {
+                    Card.card_click(GamePanel.getInstance().cards, (int) x, (int) y);
+                }
+
+                if (x > 0 && x < 199 && y > 0 && y < 100) { // top left part of the screen
+                    room_type = 4; //
+                }
+                if(GamePanel.getInstance().done && GamePanel.getInstance().stage == 4){
+                    Card.resize(1);
+                }
+                else if(GamePanel.getInstance().done && GamePanel.getInstance().stage == 6){
+                    Card.resize(2);
+                }
+            }
+
+            if(room_type == 12){ // card_game_over
+                GamePanel.getInstance().started = false;
+                Card.resize(0);
+                if (x > 590 && x < 895 && y > 320 && y < 385) { // Try again
+                    room_type = 11; // card mini-game
+                    GamePanel.getInstance().stage = 0;
+                }
+                if (x > 590 && x < 895 && y > 395 && y < 455) { // Give up
+                    room_type = 1; // bedroom
                 }
             }
         }
@@ -222,6 +262,36 @@ public class Room {
         if(room_type == 8){ // meteor mini-game
             if(GamePanel.getInstance().meteor1.getHits() > 2){
                 room_type = 9; // meteor_game_over
+            }
+        }
+
+        if(room_type == 11){ // card game
+            if(!GamePanel.getInstance().started){
+                GamePanel.getInstance().timer = System.nanoTime();
+                GamePanel.getInstance().started = true;
+            }
+            if(GamePanel.getInstance().timer + 60L * 1000000000 < System.nanoTime()){
+                room_type = 12; // game_over
+                GamePanel.getInstance().started = false;
+            }
+            if (GamePanel.getInstance().wait) {
+                var timeDif = System.nanoTime() - GamePanel.getInstance().waitStart;
+
+                if (timeDif >  500000000) {
+                    GamePanel.getInstance().wait = false;
+                    if(GamePanel.getInstance().done){
+                        Card.shuffle_matrix(GamePanel.getInstance().cards);
+                        GamePanel.getInstance().done = false;
+                    }
+                    for (int i = 0; i < GamePanel.getInstance().cards.length; ++i) {
+                        for(int j = 0; j < GamePanel.getInstance().cards[0].length; ++j) {
+                            GamePanel.getInstance().cards[i][j].visible = false;
+                            GamePanel.getInstance().cards[i][j].setImage(GamePanel.getInstance().cards[i][j].type);
+                        }
+                    }
+                    GamePanel.getInstance().visibleCount = 0;
+                }
+
             }
         }
 
@@ -270,6 +340,12 @@ public class Room {
                 case 10:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/open_fridge.png")));
                     break;
+                case 11:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game.png")));
+                    break;
+                case 12:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game_over.png")));
+                    break;
                 default:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
                     break;
@@ -295,7 +371,10 @@ public class Room {
         }
         else if(room_type == 4){
             g2.drawImage(prevArrow, 10, 10, 15*6, 15*6, null);
-            if(GamePanel.getInstance().player.getAge() == 2) {
+            if(GamePanel.getInstance().player.getAge() > 1) {
+                g2.drawImage(nextArrow, 1410, 670, 15 * 6, 15 * 6, null);
+            }
+            if(GamePanel.getInstance().player.getAge() > 0) {
                 g2.drawImage(nextArrow, 10, 670, 15 * 6, 15 * 6, null);
             }
         }
@@ -337,11 +416,29 @@ public class Room {
         else if(room_type == 9){
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
-            g2.drawString("Try again", 700, 333);
-            g2.drawString(" Give up", 700, 410);
-            g2.drawString(" Score: " + GamePanel.getInstance().meteor1.getScore(), 700, 490);
+            g2.drawString("Try again", 680, 333);
+            g2.drawString(" Give up", 680, 410);
+            g2.drawString(" Score: " + GamePanel.getInstance().meteor1.getScore(), 680, 490);
+            if(GamePanel.getInstance().meteor1.getScore() >= GamePanel.getInstance().high_score_meteor){
+                g2.drawString("New High Score!", 625, 555);
+                GamePanel.getInstance().high_score_meteor = GamePanel.getInstance().meteor1.getScore();
+            }
+            g2.drawString("High Score: " + GamePanel.getInstance().high_score_meteor, 650, 520);
         }
-
+        else if(room_type == 12){
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.magenta);
+            if(GamePanel.getInstance().stage >= GamePanel.getInstance().high_score_card){
+                GamePanel.getInstance().high_score_card = GamePanel.getInstance().stage;
+                g2.drawString(" New High score!", 615, 560);
+            }
+            g2.setColor(Color.white);
+            g2.drawString("Try again", 675, 363);
+            g2.drawString(" Give up", 675, 440);
+            g2.setColor(Color.magenta);
+            g2.drawString("You reached: stage " + GamePanel.getInstance().stage, 582, 495);
+            g2.drawString("High score: " + GamePanel.getInstance().high_score_card, 650, 527);
+        }
     }
 
 }

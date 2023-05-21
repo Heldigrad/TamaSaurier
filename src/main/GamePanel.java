@@ -37,12 +37,14 @@ public class GamePanel extends JPanel implements Runnable{
     //football mini-game
     public Football football = new Football(this);
     public Goal goal = new Goal(this);
+    public int high_score_football = 0;
 
     //meteor mini-game
     public Meteor meteor1 = new Meteor(0);
     public Meteor meteor2 = new Meteor(2);
     public Meteor meteor3 = new Meteor(4);
     public Meteor meteor4 = new Meteor(6);
+    public int high_score_meteor = 0;
 
     // food
     public Food food1 = new Food((int)(Math.random() * (15) + 0));
@@ -55,6 +57,17 @@ public class GamePanel extends JPanel implements Runnable{
     public Food food8 = new Food((int)(Math.random() * (15) + 0));
     public Food food9 = new Food((int)(Math.random() * (15) + 0));
     boolean change = false;
+
+    //Card mini-game
+    public Card[][] cards = Card.createGame(0);
+    public int visibleCount = 0;
+    public boolean wait = false;
+    public long waitStart = 0;
+    public int stage = 1;
+    public boolean done = false;
+    public boolean started = false;
+    public long timer = 0;
+    public int high_score_card = 0;
 
     private static GamePanel instance;
 
@@ -188,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9 && room.room_type != 10) {
+        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9 && room.room_type != 10 && room.room_type != 11 && room.room_type != 12) {
             player.draw(g2);
             if(room.room_type == 4){ // football mini-game
                 football.draw(g2);
@@ -196,6 +209,10 @@ public class GamePanel extends JPanel implements Runnable{
                 g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
                 g2.setColor(Color.white);
                 g2.drawString("Score: " + football.score, 1300, 50);
+                if(football.score > high_score_football){
+                    high_score_football = football.score;
+                }
+                g2.drawString("High Score: " + high_score_football, 1300, 80);
             }
             else if(room.room_type == 8){ // meteor mini-game
                 meteor1.draw(g2);
@@ -245,6 +262,20 @@ public class GamePanel extends JPanel implements Runnable{
                 food9.draw(g2, 990, 620);
             }
         }
+
+        else if (room.room_type == 11){
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            g2.drawString("Stage: " + stage, 50, 50);
+            g2.drawString("Timer: " + (60 - (System.nanoTime() - timer)/1000000000), 50, 100);
+
+            for(int i = 0; i < cards.length; ++i){
+                for(int j = 0; j < cards[0].length; ++j){
+                    cards[i][j].draw(g2, cards[i][j].x, cards[i][j].y);
+                }
+            }
+        }
+
         g2.dispose();
     }
 }
