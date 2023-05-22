@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Bar{
-    public float level = 1;
+    public float level;
     public BufferedImage bar;
 
     Bar(String imgSrc) { // constructor

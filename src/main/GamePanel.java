@@ -102,6 +102,8 @@ public class GamePanel extends JPanel implements Runnable{
 
         long foodChange = 0;
         long start_aging = 0;
+
+        long update_db = System.nanoTime();
         while(gameThread != null){
             long currentTime = System.nanoTime();
 
@@ -112,22 +114,21 @@ public class GamePanel extends JPanel implements Runnable{
             if(start_game){
                 start_aging = System.nanoTime();
             }
-            else{
-                player.hunger.level = 1;
-                player.fun.level = 1;
-                player.energy.level = 1;
-                player.hygiene.level = 1;
+
+            if(start_game && start_aging/1000000 > startTime/1000000 + 200000 && entity.Player.getInstance().age == 1){
+                if(room.room_type != 4 && room.room_type != 8) {
+                    entity.Player.getInstance().age = 2;
+                }
+            }
+            else if(start_game && start_aging/1000000 > startTime/1000000 + 100000 && entity.Player.getInstance().age == 0){
+                if(room.room_type != 4 && room.room_type != 8) {
+                    entity.Player.getInstance().age = 1;
+                }
             }
 
-            if(start_game && start_aging/1000000 > startTime/1000000 + 200000 && entity.Player.age == 1){
-                if(room.room_type != 4 && room.room_type != 8) {
-                    entity.Player.age = 2;
-                }
-            }
-            else if(start_game && start_aging/1000000 > startTime/1000000 + 100000 && entity.Player.age == 0){
-                if(room.room_type != 4 && room.room_type != 8) {
-                    entity.Player.age = 1;
-                }
+            if((currentTime - update_db)/1000000000 >= 10){
+                update_db = currentTime;
+                player.db.update();
             }
 
             if(foodChange/1000000 + 10000 < currentTime/1000000){

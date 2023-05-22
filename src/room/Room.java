@@ -49,15 +49,14 @@ public class Room {
             var y = MouseHandler.pos.getY();
 
             if(room_type == 0){ // menu
-                if(x>620&&x<913&&y>320&&y<354){
+                if(x>620&&x<913&&y>320&&y<354){ // New Game
+                    Player.getInstance().set_start_values();
                     room_type = 5; // egg_closeup
                 }
-                if(x>595&&x<917&&y>380&&y<450){
-                    System.out.println("da");
-                    Player.age = 2;
+                if(x>595&&x<917&&y>380&&y<450){ // Load Game
                     room_type = 1;
                 }
-                if(x>620&&x<913&&y>466&&y<491){
+                if(x>620&&x<913&&y>466&&y<491){ // Exit
                     System.exit(0);
                 }
             }
@@ -87,11 +86,11 @@ public class Room {
                     frame++;
                     if(frame > 7){//to be corrected/checked
                         if(x>0&&x<700&&y>0&&y<2000) { // click on the left part of the screen
-                            Player.gender = 0; // boy
+                            Player.getInstance().gender = 0; // boy
                             room_type = 1; // bedroom
                         }
                         else{
-                            Player.gender = 1; // girl
+                            Player.getInstance().gender = 1; // girl
                             room_type = 1; // bedroom
                         }
                     }
@@ -368,7 +367,7 @@ public class Room {
         if(room_type == 0){
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
-            g2.drawString("Start", 730, 321);
+            g2.drawString("New game", 685, 321);
             g2.drawString("Load game", 680, 390);
             g2.drawString("Quit", 735, 460);
         }

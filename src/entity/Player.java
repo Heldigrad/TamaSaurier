@@ -1,5 +1,6 @@
 package entity;
 
+import main.DB_info;
 import main.GamePanel;
 
 import javax.imageio.ImageIO;
@@ -10,8 +11,8 @@ import java.util.Objects;
 public class Player extends Entity{
     //dinosaur characteristics:
     private static Player instance;
-    public static int age = 0;
-    public static int gender = 1;
+    public int age;
+    public int gender;
     public Bar energy = new Bar("stuff/energy_bar_empty.png");
     public Bar hunger = new Bar("stuff/food_bar.png");
     public Bar fun = new Bar("stuff/fun_bar.png");
@@ -29,6 +30,9 @@ public class Player extends Entity{
     //dinosaur movement:
     boolean is_moving = false;
     public int next_x = 0, next_y = 0;
+
+    //database
+    public DB_info db = new DB_info();
 
     //constructor:
     private Player(){
@@ -48,9 +52,21 @@ public class Player extends Entity{
 
     //function that checks death conditions
     public void dead(){
-        if(energy.level <= 0 && hunger.level <= 0){
+        if(energy.level <= 0 && hunger.level <= 0 && GamePanel.getInstance().room.room_type != 0){
             GamePanel.getInstance().room.room_type = 6;
         }
+    }
+
+    public void set_start_values(){
+        age = 0;
+        hunger.level = 1;
+        fun.level = 1;
+        hygiene.level = 1;
+        energy.level = 1;
+        GamePanel.getInstance().high_score_football = 0;
+        GamePanel.getInstance().high_score_card = 0;
+        GamePanel.getInstance().high_score_meteor = 0;
+        db.update();
     }
 
     //function for choosing the correct dinosaur skin
