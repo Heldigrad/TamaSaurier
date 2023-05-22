@@ -153,8 +153,8 @@ public class Player extends Entity{
 
     //default player position
     public void setDefaultValues(){
-        x = 733;
-        y = 600 - this.height;
+        x = 815 - this.width;
+        y = 530 - this.height;
         speed = 4;
     }
 

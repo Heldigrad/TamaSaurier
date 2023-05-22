@@ -98,6 +98,7 @@ public class Room {
                 }
             }
             if(room_type == 8){ // meteor mini-game
+                GamePanel.getInstance().player.fun.level = 1;
                 if(x>0&&x<100&&y>0&&y<100){ // reset game / try again
                     GamePanel.getInstance().meteor1.reset();
                     room_type = 1; // meteor mini-game
@@ -105,6 +106,7 @@ public class Room {
             }
 
             if(room_type == 9){ // meteor_game_over
+                GamePanel.getInstance().player.fun.level = 1;
                 if(x>630&&x<890&&y>315&&y<382){ // reset game / try again
                     GamePanel.getInstance().meteor1.reset();
                     room_type = 8; // meteor mini-game
@@ -138,7 +140,12 @@ public class Room {
                 }
             }
             if(room_type == 1){ // bedroom
+                if(!GamePanel.getInstance().start_game){
+                    GamePanel.getInstance().start_game = true;
+                }
                 if(x>112&&x<387&&y>403&&y<715){ // click on the bed
+                    GamePanel.getInstance().player.x = 335-GamePanel.getInstance().player.width * 6;
+                    GamePanel.getInstance().player.y = 580-GamePanel.getInstance().player.height * 6;
                     bed_pressed = true;
                 }
             }
@@ -151,6 +158,8 @@ public class Room {
 
             else if(room_type == 3){ // bathroom
                 if(x>150&&x<604&&y>163&&y<576){ // click on the bathtub
+                    GamePanel.getInstance().player.x = 413-GamePanel.getInstance().player.width * 6;
+                    GamePanel.getInstance().player.y = 432-GamePanel.getInstance().player.height * 6;
                     bathtub_pressed = true;
                 }
             }
@@ -220,17 +229,14 @@ public class Room {
                             GamePanel.getInstance().food9.visible = false;
                         }
                     }
-
-                    else if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
-                        room_type = 2; // kitchen
-                    }
-                    if(Player.getInstance().meat_affinity == 1){
-                        System.out.println("carnecarnecarne");
-                    }
+                }
+                if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
+                    room_type = 2; // kitchen
                 }
             }
 
             if(room_type == 11){ // card game
+                GamePanel.getInstance().player.fun.level = 1;
                 if (!GamePanel.getInstance().wait) {
                     Card.card_click(GamePanel.getInstance().cards, (int) x, (int) y);
                 }
@@ -247,6 +253,7 @@ public class Room {
             }
 
             if(room_type == 12){ // card_game_over
+                GamePanel.getInstance().player.fun.level = 1;
                 GamePanel.getInstance().started = false;
                 Card.resize(0);
                 if (x > 590 && x < 895 && y > 320 && y < 385) { // Try again
