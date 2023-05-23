@@ -28,10 +28,34 @@ public class DB_info {
                 Player.getInstance().fun.level = rs.getFloat("fun");
                 Player.getInstance().hygiene.level = rs.getFloat("hygiene");
                 Player.getInstance().energy.level = rs.getFloat("energy");
-                Player.getInstance().veggie_love = rs.getInt("veggie_love") == 1;
-                Player.getInstance().meat_love = rs.getInt("meat_love") == 1;
-                Player.getInstance().milk_love = rs.getInt("milk_love") == 1;
-                Player.getInstance().sweet_love = rs.getInt("sweet_love") == 1;
+
+                if(rs.getInt("veggie_love") != 0 && rs.getInt("veggie_love") != 1){
+                    throw new IllegalArgumentException("veggie_love from DB has an unauthorized value.");
+                }
+                else{
+                    Player.getInstance().veggie_love = rs.getInt("veggie_love") == 1;
+                }
+
+                if(rs.getInt("meat_love") != 0 && rs.getInt("meat_love") != 1){
+                    throw new IllegalArgumentException("meat_love from DB has an unauthorized value.");
+                }
+                else{
+                    Player.getInstance().meat_love = rs.getInt("meat_love") == 1;
+                }
+
+                if(rs.getInt("milk_love") != 0 && rs.getInt("milk_love") != 1){
+                    throw new IllegalArgumentException("milk_love from DB has an unauthorized value.");
+                }
+                else{
+                    Player.getInstance().milk_love = rs.getInt("milk_love") == 1;
+                }
+
+                if(rs.getInt("sweet_love") != 0 && rs.getInt("sweet_love") != 1){
+                    throw new IllegalArgumentException("sweet_love from DB has an unauthorized value.");
+                }
+                else{
+                    Player.getInstance().sweet_love = rs.getInt("sweet_love") == 1;
+                }
 
                 System.out.println();
             }
