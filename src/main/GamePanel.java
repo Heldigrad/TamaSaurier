@@ -48,15 +48,15 @@ public class GamePanel extends JPanel implements Runnable{
     public int high_score_meteor = 0;
 
     // food
-    public Food food1 = new Food((int)(Math.random() * (15) + 0));
-    public Food food2 = new Food((int)(Math.random() * (15) + 0));
-    public Food food3 = new Food((int)(Math.random() * (15) + 0));
-    public Food food4 = new Food((int)(Math.random() * (15) + 0));
-    public Food food5 = new Food((int)(Math.random() * (15) + 0));
-    public Food food6 = new Food((int)(Math.random() * (15) + 0));
-    public Food food7 = new Food((int)(Math.random() * (15) + 0));
-    public Food food8 = new Food((int)(Math.random() * (15) + 0));
-    public Food food9 = new Food((int)(Math.random() * (15) + 0));
+    public Food food1 = FoodFactory.makeFood();
+    public Food food2 = FoodFactory.makeFood();
+    public Food food3 = FoodFactory.makeFood();
+    public Food food4 = FoodFactory.makeFood();
+    public Food food5 = FoodFactory.makeFood();
+    public Food food6 = FoodFactory.makeFood();
+    public Food food7 = FoodFactory.makeFood();
+    public Food food8 = FoodFactory.makeFood();
+    public Food food9 = FoodFactory.makeFood();
     boolean change = false;
 
     //Card mini-game
