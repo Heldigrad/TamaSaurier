@@ -8,7 +8,7 @@ public class DB_info {
 
     }
 
-    public void read(){
+    public void read() throws InvalidVarException{
         Connection c;
         Statement stmt;
         try {
@@ -24,34 +24,58 @@ public class DB_info {
                 GamePanel.getInstance().high_score_football = rs.getInt("HS_football");
                 GamePanel.getInstance().high_score_card = rs.getInt("HS_card");
                 GamePanel.getInstance().high_score_meteor = rs.getInt("HS_meteor");
-                Player.getInstance().hunger.level = rs.getFloat("hunger");
-                Player.getInstance().fun.level = rs.getFloat("fun");
-                Player.getInstance().hygiene.level = rs.getFloat("hygiene");
-                Player.getInstance().energy.level = rs.getFloat("energy");
+
+                if(rs.getFloat("hunger") > 1){
+                    throw new InvalidVarException("hunger from DB has an unauthorized value.");
+                }
+                else {
+                    Player.getInstance().hunger.level = rs.getFloat("hunger");
+                }
+
+                if(rs.getFloat("fun") > 1){
+                    throw new InvalidVarException("fun from DB has an unauthorized value.");
+                }
+                else {
+                    Player.getInstance().fun.level = rs.getFloat("fun");
+                }
+
+                if(rs.getFloat("hygiene") > 1){
+                    throw new InvalidVarException("hygiene from DB has an unauthorized value.");
+                }
+                else {
+                    Player.getInstance().hygiene.level = rs.getFloat("hygiene");
+                }
+
+                if(rs.getFloat("energy") > 1){
+                    throw new InvalidVarException("energy from DB has an unauthorized value.");
+                }
+                else {
+                    Player.getInstance().energy.level = rs.getFloat("energy");
+                }
 
                 if(rs.getInt("veggie_love") != 0 && rs.getInt("veggie_love") != 1){
-                    throw new IllegalArgumentException("veggie_love from DB has an unauthorized value.");
+                    throw new InvalidVarException("veggie_love from DB has an unauthorized value.");
                 }
                 else{
                     Player.getInstance().veggie_love = rs.getInt("veggie_love") == 1;
                 }
 
                 if(rs.getInt("meat_love") != 0 && rs.getInt("meat_love") != 1){
-                    throw new IllegalArgumentException("meat_love from DB has an unauthorized value.");
+                    throw new InvalidVarException("meat_love from DB has an unauthorized value.");
                 }
                 else{
                     Player.getInstance().meat_love = rs.getInt("meat_love") == 1;
                 }
 
                 if(rs.getInt("milk_love") != 0 && rs.getInt("milk_love") != 1){
-                    throw new IllegalArgumentException("milk_love from DB has an unauthorized value.");
+                    throw new InvalidVarException("milk_love from DB has an unauthorized value.");
                 }
                 else{
                     Player.getInstance().milk_love = rs.getInt("milk_love") == 1;
                 }
 
                 if(rs.getInt("sweet_love") != 0 && rs.getInt("sweet_love") != 1){
-                    throw new IllegalArgumentException("sweet_love from DB has an unauthorized value.");
+                    throw new InvalidVarException("sweet_love from DB has an unauthorized value.");
                 }
                 else{
                     Player.getInstance().sweet_love = rs.getInt("sweet_love") == 1;

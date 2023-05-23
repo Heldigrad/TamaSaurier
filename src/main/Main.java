@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidVarException {
 
         JFrame window = new JFrame(); // created a new window
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //the window can be closed
@@ -19,7 +19,13 @@ public class Main {
         GamePanel gamePanel = GamePanel.getInstance();
         window.add(gamePanel);
 
-        Player.getInstance().db.read();
+        try {
+            Player.getInstance().db.read();
+        }
+        catch(InvalidVarException e){
+            System.out.println(e);
+            System.exit(0);
+        }
 
         window.pack();
 

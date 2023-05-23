@@ -217,7 +217,7 @@ public class Food extends Entity{
 
     public void eat(){
         if(food_timeout){
-            if((System.nanoTime() - food_timeout_start)/1000000000 >= 1){
+            if((System.nanoTime() - food_timeout_start)/1000000000 >= 5){
                 food_timeout = false;
             }
             else{
