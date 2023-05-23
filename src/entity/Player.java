@@ -27,6 +27,11 @@ public class Player extends Entity{
     public int milk_affinity = 0;
     public int sweet_affinity = 0;
 
+    public boolean meat_love = false;
+    public boolean veggie_love = false;
+    public boolean milk_love = false;
+    public boolean sweet_love = false;
+
     //dinosaur movement:
     boolean is_moving = false;
     public int next_x = 0, next_y = 0;
@@ -52,7 +57,7 @@ public class Player extends Entity{
 
     //function that checks death conditions
     public void dead(){
-        if(energy.level <= 0 && hunger.level <= 0 && GamePanel.getInstance().room.room_type != 0){
+        if(energy.level <= 0 && hunger.level <= 0 && GamePanel.getInstance().room.room_type != 0 && GamePanel.getInstance().room.room_type !=13){
             GamePanel.getInstance().room.room_type = 6;
         }
     }

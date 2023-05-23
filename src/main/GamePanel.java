@@ -214,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D)g;
 
         room.draw(g2);
-        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9 && room.room_type != 10 && room.room_type != 11 && room.room_type != 12) {
+        if(room.room_type != 0 && room.room_type != 5 && room.room_type != 6 && room.room_type != 7 && room.room_type != 9 && room.room_type != 10 && room.room_type != 11 && room.room_type != 12 && room.room_type !=13) {
             player.draw(g2);
             if(room.room_type == 4){ // football mini-game
                 football.draw(g2);

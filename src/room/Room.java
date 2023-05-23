@@ -81,6 +81,22 @@ public class Room {
                     }
                 }
             }
+
+            if(room_type == 6){ // dead
+                if(x>620&&x<913&&y>320&&y<354){ // New Game
+                    Player.getInstance().set_start_values();
+                    room_type = 5; // egg_closeup
+                }
+                if(x>595&&x<917&&y>380&&y<450){ // See High Scores
+                    room_type = 13;
+                }
+                if(x>620&&x<913&&y>466&&y<491){ // Exit
+                    Player.getInstance().set_start_values();
+                    Player.getInstance().db.update();
+                    System.exit(0);
+                }
+            }
+
             if(room_type == 7){ // egg_at_home
                 if(x>0&&x<3000&&y>0&&y<2000){ // press anywhere
                     frame++;
@@ -112,11 +128,6 @@ public class Room {
                 }
                 else if(x>630&&x<890&&y>405&&y<450){
                     room_type = 1; // bedroom
-                }
-            }
-            else if (room_type == 6){ // dead
-                if(x>0&&x<3000&&y>0&&y<2000) { // anywhere on the screen
-                    System.exit(0);
                 }
             }
             else{ // any other room
@@ -263,6 +274,11 @@ public class Room {
                     room_type = 1; // bedroom
                 }
             }
+            if (room_type == 13){ // see_high_scores
+                if(x>0&&x<100&&y>0&&y<100){
+                    room_type = 6;
+                }
+            }
         }
 
         if(room_type == 8){ // meteor mini-game
@@ -332,7 +348,7 @@ public class Room {
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.png")));
                     break;
                 case 6:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/dead.png")));
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
                     break;
                 case 7:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_at_home.png")));
@@ -351,6 +367,9 @@ public class Room {
                     break;
                 case 12:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game_over.png")));
+                    break;
+                case 13:
+                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
                     break;
                 default:
                     background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
@@ -398,6 +417,14 @@ public class Room {
                 g2.drawString("I'll bring it back home :) !", 500, 100);
             }
         }
+        else if(room_type == 6){ // dead
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            g2.drawString("   Try again", 670, 321);
+            g2.drawString("See High Scores", 670, 390);
+            g2.drawString("     Quit", 670, 460);
+
+        }
         else if(room_type == 7){ // egg_at_home
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
@@ -444,6 +471,27 @@ public class Room {
             g2.setColor(Color.magenta);
             g2.drawString("You reached: stage " + GamePanel.getInstance().stage, 582, 495);
             g2.drawString("High score: " + GamePanel.getInstance().high_score_card, 650, 527);
+        }
+        else if(room_type == 13){
+            g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
+            g2.setColor(Color.white);
+            if(Player.getInstance().gender == 0) {
+                g2.drawString("   Saurier died :(", 610, 273);
+            }
+            else{
+                g2.drawString("  Saurierin died :(", 610, 273);
+            }
+            g2.drawString("You reached: age " + Player.getInstance().getAge(), 610, 305);
+            g2.drawString("    Football: ", 650, 350);
+            g2.drawString("High score: " + GamePanel.getInstance().high_score_football, 650, 385);
+            if(Player.getInstance().getAge() > 0){
+                g2.drawString("     Card: ", 650, 420);
+                g2.drawString("High score: " + GamePanel.getInstance().high_score_card, 650, 455);
+            }
+            if(Player.getInstance().getAge() > 1) {
+                g2.drawString("    Meteor: ", 650, 500);
+                g2.drawString("High score: " + GamePanel.getInstance().high_score_meteor, 650, 535);
+            }
         }
     }
 
