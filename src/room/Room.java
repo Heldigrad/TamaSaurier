@@ -101,7 +101,7 @@ public class Room {
                 if(x>0&&x<3000&&y>0&&y<2000){ // press anywhere
                     frame++;
                     if(frame > 7){//to be corrected/checked
-                        if(x>0&&x<700&&y>0&&y<2000) { // click on the left part of the screen
+                        if(x<700) { // click on the left part of the screen
                             Player.getInstance().gender = 0; // boy
                             room_type = 1; // bedroom
                         }
@@ -293,51 +293,36 @@ public class Room {
             prevArrow = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/arrow_mirr.png")));
             nextArrow = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/arrow.png")));
             switch (room_type) {
-                case 0: // menu
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
-                    break;
-                case 1: // bedroom
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom.png")));
-                    break;
-                case 2: // kitchen
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/kitchen.png")));
-                    break;
-                case 3: // bathroom
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bathroom_done.png")));
-                    break;
-                case 4: // football field
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/football_field.png")));
-                    break;
-                case 5: // egg_closeup
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.png")));
-                    break;
-                case 6:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
-                    break;
-                case 7:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_at_home.png")));
-                    break;
-                case 8:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
-                    break;
-                case 9:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_game_over.png")));
-                    break;
-                case 10:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/open_fridge.png")));
-                    break;
-                case 11:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game.png")));
-                    break;
-                case 12:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game_over.png")));
-                    break;
-                case 13:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
-                    break;
-                default:
-                    background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
-                    break;
+                case 0 -> // menu
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
+                case 1 -> // bedroom
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom.png")));
+                case 2 -> // kitchen
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/kitchen.png")));
+                case 3 -> // bathroom
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bathroom_done.png")));
+                case 4 -> // football field
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/football_field.png")));
+                case 5 -> // egg_closeup
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_closeup.png")));
+                case 6 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/menu.png")));
+                case 7 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/egg_at_home.png")));
+                case 8 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
+                case 9 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_game_over.png")));
+                case 10 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/open_fridge.png")));
+                case 11 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game.png")));
+                case 12 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/card_game_over.png")));
+                case 13 ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/meteor_shower.png")));
+                default ->
+                        background = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("rooms/bedroom_simple.png")));
             }
         }
         catch(IOException e){

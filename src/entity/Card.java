@@ -7,7 +7,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class Card extends Entity{
 
@@ -31,27 +30,20 @@ public class Card extends Entity{
         try {
             if(visible || permanently_visible) {
                 switch (type) {
-                    case 0: // card_bee
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_bee.png")));
-                        break;
-                    case 1: // card_chicken
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_chicken.png")));
-                        break;
-                    case 2: // card_computer
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_computer.png")));
-                        break;
-                    case 3: // card_flower
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_flower.png")));
-                        break;
-                    case 4:
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_turtle.png")));
-                        break;
-                    case 5:
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_frog.png")));
-                        break;
-                    default:
-                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card.png")));
-                        break;
+                    case 0 -> // card_bee
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_bee.png")));
+                    case 1 -> // card_chicken
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_chicken.png")));
+                    case 2 -> // card_computer
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_computer.png")));
+                    case 3 -> // card_flower
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_flower.png")));
+                    case 4 ->
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_turtle.png")));
+                    case 5 ->
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card_frog.png")));
+                    default ->
+                            image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/card.png")));
                 }
             }
             else {
@@ -66,16 +58,16 @@ public class Card extends Entity{
     public static void shuffle_matrix(Card[][] cards){
         Random rand = new Random();
 
-        for (int i = 0; i < cards.length; ++i) {
-            for(int j = 0; j < cards[0].length; ++j){
+        for (Card[] card : cards) {
+            for (int j = 0; j < cards[0].length; ++j) {
                 int randomIToSwap = rand.nextInt(cards.length);
                 int randomJtoSwap = rand.nextInt(cards[0].length);
                 int temp = cards[randomIToSwap][randomJtoSwap].type;
-                cards[randomIToSwap][randomJtoSwap].type = cards[i][j].type;
-                cards[i][j].type = temp;
-                cards[i][j].visible = false;
-                cards[i][j].permanently_visible = false;
-                cards[i][j].setImage(cards[i][j].type);
+                cards[randomIToSwap][randomJtoSwap].type = card[j].type;
+                card[j].type = temp;
+                card[j].visible = false;
+                card[j].permanently_visible = false;
+                card[j].setImage(card[j].type);
             }
         }
     }
@@ -84,12 +76,12 @@ public class Card extends Entity{
         Card aux;
 
         if(GamePanel.getInstance().visibleCount == 0 || GamePanel.getInstance().visibleCount == 1) {
-            for (int i = 0; i < cards.length; ++i) {
+            for (Card[] card : cards) {
                 for (int j = 0; j < cards[0].length; ++j) {
-                    aux = cards[i][j];
+                    aux = card[j];
                     if (x >= aux.x && x <= aux.x + aux.width * 6 && y >= aux.y && y <= aux.y + aux.height * 6) { // checking if the card was clicked
-                        cards[i][j].visible = true;
-                        cards[i][j].setImage(cards[i][j].type);
+                        card[j].visible = true;
+                        card[j].setImage(card[j].type);
                         GamePanel.getInstance().visibleCount++;
                     }
                 }
@@ -114,7 +106,6 @@ public class Card extends Entity{
                     }
                 }
             }
-            ok = 0;
             if(cards[i1][j1].type == cards[i2][j2].type){
                 cards[i1][j1].permanently_visible = true;
                 cards[i2][j2].permanently_visible = true;

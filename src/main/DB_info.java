@@ -2,24 +2,15 @@ package main;
 import entity.Player;
 
 import java.sql.*;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class DB_info {
-    String[] colHeads = {"age","gender", "HS_football", "HS_card", "HS_meteor", "hunger", "fun", "hygiene", "energy", "veggie_love", "meat_love", "milk_love", "sweet_love"};
-    String[][] data = {};
-    DefaultTableModel model = new DefaultTableModel(data, colHeads);
-//jt = new JTable(data, colHeads);
-    JTable jt = new JTable(model);
-
     public DB_info(){
 
     }
 
     public void read(){
-        DefaultTableModel model = (DefaultTableModel) jt.getModel();
-        Connection c = null;
-        Statement stmt = null;
+        Connection c;
+        Statement stmt;
         try {
             Class.forName("org.sqlite.JDBC");
 
@@ -54,8 +45,8 @@ public class DB_info {
     }
 
     public void update(){
-        Connection c = null;
-        Statement stmt = null;
+        Connection c;
+        Statement stmt;
         try {
             Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:TamaSaurier_DB.db");

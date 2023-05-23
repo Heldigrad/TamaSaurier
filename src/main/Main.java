@@ -3,7 +3,6 @@ package main;
 import entity.Player;
 
 import javax.swing.JFrame;
-import java.awt.*;
 
 public class Main {
 

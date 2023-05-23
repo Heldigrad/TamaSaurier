@@ -33,8 +33,4 @@ public class MouseHandler implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
-    Point getPosition(MouseEvent e){
-        return e.getPoint();
-    }
 }

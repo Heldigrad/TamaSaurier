@@ -21,7 +21,7 @@ public class Meteor extends Entity{
     }
 
     public void setDefaultValues(){
-        this.x = (int)(Math.random() * (1500 - width - 0) + 0);
+        this.x = (int)(Math.random() * (1500 - width) + 0);
         this.y = -height;
         this.speed = 4;
     }
@@ -67,50 +67,49 @@ public class Meteor extends Entity{
     public void setMeteorImage(int type){
         this.type = type;
         try{
-            switch (type){
-                case 0: // meteor_1_
+            switch (type) {
+                case 0 -> { // meteor_1_
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_1_.png")));
                     this.width = 18;
                     this.height = 30;
-                    break;
-                case 1: // meteor_1_mirr
+                }
+                case 1 -> { // meteor_1_mirr
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_1_mirr.png")));
                     this.width = 18;
                     this.height = 30;
-                    break;
-                case 2: // meteor_2_
+                }
+                case 2 -> { // meteor_2_
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_2_.png")));
                     this.width = 17;
                     this.height = 30;
-                    break;
-                case 3: // meteor_2_mirr
+                }
+                case 3 -> { // meteor_2_mirr
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_2_mirr.png")));
                     this.width = 17;
                     this.height = 30;
-                    break;
-                case 4: // meteor_3_
+                }
+                case 4 -> { // meteor_3_
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_3_.png")));
                     this.width = 22;
                     this.height = 34;
-                    break;
-                case 5: // meteor_3_mirr
+                }
+                case 5 -> { // meteor_3_mirr
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_3_mirr.png")));
                     this.width = 22;
                     this.height = 34;
-                    break;
-                case 6: // meteor_4_
+                }
+                case 6 -> { // meteor_4_
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_4_.png")));
                     this.width = 28;
                     this.height = 28;
-                    break;
-                case 7: // meteor_4_mirr
+                }
+                case 7 -> { // meteor_4_mirr
                     image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_4_mirr.png")));
                     this.width = 28;
                     this.height = 28;
-                    break;
-                default:
-                    image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_1_.png")));
-                    break;
+                }
+                default ->
+                        image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("stuff/meteor_1_.png")));
             }
         }
         catch(IOException e){
@@ -141,8 +140,8 @@ public class Meteor extends Entity{
         if(intersects_player){
             hits++;
             intersects_player = false;
-            setX((int) (Math.random() * (1500 - width - 0) + 0));
-            setMeteorImage((int) (Math.random() * (7 - 0) + 0));
+            setX((int) (Math.random() * (1500 - width) + 0));
+            setMeteorImage((int) (Math.random() * (7) + 0));
             this.y  = -height*6;
         }
 
@@ -158,8 +157,8 @@ public class Meteor extends Entity{
                 setSpeed((int) (Math.random() * (17 - 12) + 12));
             }
 
-            setX((int) (Math.random() * (1500 - width - 0) + 0));
-            setMeteorImage((int) (Math.random() * (7 - 0) + 0));
+            setX((int) (Math.random() * (1500 - width) + 0));
+            setMeteorImage((int) (Math.random() * (7) + 0));
             this.y  = -height*6;
         }
     }

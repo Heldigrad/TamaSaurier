@@ -45,17 +45,13 @@ public class Football extends Entity{
         if(cx < 0){ // left
             return true;
         }
-        if(cx + this.width * 4 > 1535){ // right
-            return true;
-        }
-        return false;
+        // right
+        return cx + this.width * 4 > 1535;
     }
 
-    public boolean intersects_flowers(int cx, int cy){
-        if(cx + this.width * 4 > 1247){ // right
-            return true;
-        }
-        return false;
+    public boolean intersects_flowers(int cx){
+        // right
+        return cx + this.width * 4 > 1247;
     }
 
     public boolean scored(int cx, int cy){
@@ -123,7 +119,7 @@ public class Football extends Entity{
             setDefaultValues();
             this.score += 5;
         }
-        if(intersects_flowers(this.x, this.y)){
+        if(intersects_flowers(this.x)){
             setDefaultValues();
             this.score -= 100;
         }
