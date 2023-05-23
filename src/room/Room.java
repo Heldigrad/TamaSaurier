@@ -177,67 +177,31 @@ public class Room {
             if(room_type == 10){ // open_fridge
                 if(Player.getInstance().hunger.level < 1) {
                     if (x > 416 && x < 545 && y > 182 && y < 295) { // food (1, 1)
-                        if (GamePanel.getInstance().food1.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food1.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food1);
-                            GamePanel.getInstance().food1.visible = false;
-                        }
+                        GamePanel.getInstance().food1.eat();
                     }
                     if (x > 674 && x < 806 && y > 182 && y < 295) { // food (1, 2)
-                        if (GamePanel.getInstance().food2.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food2.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food2);
-                            GamePanel.getInstance().food2.visible = false;
-                        }
+                        GamePanel.getInstance().food2.eat();
                     }
                     if (x > 956 && x < 1102 && y > 182 && y < 295) { // food (1, 3)
-                        if (GamePanel.getInstance().food3.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food3.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food3);
-                            GamePanel.getInstance().food3.visible = false;
-                        }
+                        GamePanel.getInstance().food3.eat();
                     }
                     if (x > 416 && x < 545 && y > 387 && y < 517) { // food (2, 1)
-                        if (GamePanel.getInstance().food4.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food4.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food4);
-                            GamePanel.getInstance().food3.visible = false;
-                        }
+                        GamePanel.getInstance().food4.eat();
                     }
                     if (x > 674 && x < 806 && y > 387 && y < 517) { // food (2, 2)
-                        if (GamePanel.getInstance().food5.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food5.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food5);
-                            GamePanel.getInstance().food5.visible = false;
-                        }
+                        GamePanel.getInstance().food5.eat();
                     }
                     if (x > 956 && x < 1102 && y > 387 && y < 517) { // food (2, 3)
-                        if (GamePanel.getInstance().food6.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food6.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food6);
-                            GamePanel.getInstance().food6.visible = false;
-                        }
+                        GamePanel.getInstance().food6.eat();
                     }
                     if (x > 416 && x < 545 && y > 600 && y < 720) { // food (3, 1)
-                        if (GamePanel.getInstance().food7.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food7.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food7);
-                            GamePanel.getInstance().food7.visible = false;
-                        }
+                        GamePanel.getInstance().food7.eat();
                     }
                     if (x > 674 && x < 806 && y > 600 && y < 720) { // food (3, 2)
-                        if (GamePanel.getInstance().food8.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food8.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food8);
-                            GamePanel.getInstance().food8.visible = false;
-                        }
+                        GamePanel.getInstance().food8.eat();
                     }
                     if (x > 956 && x < 1102 && y > 600 && y < 720) { // food (3, 3)
-                        if (GamePanel.getInstance().food9.visible) {
-                            Player.getInstance().hunger.level += (float) 1 / 100 * GamePanel.getInstance().food9.saturation;
-                            Player.getInstance().setAffinities(GamePanel.getInstance().food9);
-                            GamePanel.getInstance().food9.visible = false;
-                        }
+                        GamePanel.getInstance().food9.eat();
                     }
                 }
                 if (x > 0 && x < 391 && y > 122 && y < 755) { // fridge door
@@ -420,9 +384,9 @@ public class Room {
         else if(room_type == 6){ // dead
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
-            g2.drawString("   Try again", 670, 321);
-            g2.drawString("See High Scores", 670, 390);
-            g2.drawString("     Quit", 670, 460);
+            g2.drawString("     Try again", 640, 321);
+            g2.drawString("See High Scores", 640, 390);
+            g2.drawString("        Quit", 640, 460);
 
         }
         else if(room_type == 7){ // egg_at_home
@@ -476,10 +440,10 @@ public class Room {
             g2.setFont(new Font("Seqoe UI", Font.PLAIN, 32));
             g2.setColor(Color.white);
             if(Player.getInstance().gender == 0) {
-                g2.drawString("   Saurier died :(", 610, 273);
+                g2.drawString(" Saurier died of " + Player.getInstance().cause_of_death, 570, 273);
             }
             else{
-                g2.drawString("  Saurierin died :(", 610, 273);
+                g2.drawString("Saurierin died of " + Player.getInstance().cause_of_death, 570, 273);
             }
             g2.drawString("You reached: age " + Player.getInstance().getAge(), 610, 305);
             g2.drawString("    Football: ", 650, 350);

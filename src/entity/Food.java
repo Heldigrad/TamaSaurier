@@ -1,6 +1,7 @@
 package entity;
 
 import jdk.jfr.SettingControl;
+import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +18,9 @@ public class Food extends Entity{
     public boolean veggie = false;
     public boolean milk = false;
     public boolean sweet = false;
+
+    public static boolean food_timeout = false;
+    public static long food_timeout_start = 0;
 
     public Food(int type){
         setCharacteristics(type);
@@ -148,6 +152,31 @@ public class Food extends Entity{
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void eat(){
+        if(food_timeout){
+            if((System.nanoTime() - food_timeout_start)/1000000000 >= 1){
+                food_timeout = false;
+            }
+            else{
+                System.out.println("timeout");
+                return;
+            }
+        }
+
+
+        if (visible) {
+            if(Player.getInstance().check_love(this)) {
+                Player.getInstance().hunger.level += (float) 1 / 100 * saturation;
+                Player.getInstance().setAffinities(this);
+                visible = false;
+            }
+            else{
+                food_timeout = true;
+                food_timeout_start = System.nanoTime();
+            }
         }
     }
 

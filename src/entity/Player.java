@@ -56,14 +56,19 @@ public class Player extends Entity{
     }
 
     //function that checks death conditions
+    private boolean dead = false;
+    public String cause_of_death = "";
     public void dead(){
-        if(energy.level <= 0 && hunger.level <= 0 && GamePanel.getInstance().room.room_type != 0 && GamePanel.getInstance().room.room_type !=13){
+        if(!dead && (energy.level <= 0 || hunger.level <= 0) && GamePanel.getInstance().room.room_type != 0 && GamePanel.getInstance().room.room_type !=13){
             GamePanel.getInstance().room.room_type = 6;
+            dead = true;
+            cause_of_death = (energy.level <= 0) ? "exhaustion" : "starvation";
         }
     }
 
     public void set_start_values(){
         age = 0;
+        dead = false;
         hunger.level = 1;
         fun.level = 1;
         hygiene.level = 1;
@@ -240,6 +245,9 @@ public class Player extends Entity{
         }
         if(hunger.level > -1){
             hunger.level -= hunger_drainage;
+            if(hunger.level > 1){
+                hunger.level = 1;
+            }
         }
         if(fun.level > -1){
             fun.level -= fun_drainage;
@@ -331,6 +339,31 @@ public class Player extends Entity{
         veggie_affinity += (food.veggie) ? 1 : 0;
         milk_affinity += (food.milk) ? 1 : 0;
         sweet_affinity += (food.sweet) ? 1 : 0;
+    }
+
+    public boolean check_love(Food food){
+        if(age == 0){
+            return true;
+        }
+        if (meat_love && food.meat) {
+            return true;
+        }
+        if (veggie_love && food.veggie) {
+            return true;
+        }
+        if (milk_love && food.milk) {
+            return true;
+        }
+        if (sweet_love && food.sweet) {
+            return true;
+        }
+
+        int x = (int)(Math.random()*3);
+        if(x==1){
+            return true;
+        }
+        System.out.println("I'm not eating that.");
+        return false;
     }
 
     //function that draws the player on the screen

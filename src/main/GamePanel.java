@@ -122,7 +122,19 @@ public class GamePanel extends JPanel implements Runnable{
             }
             else if(start_game && start_aging/1000000 > startTime/1000000 + 100000 && entity.Player.getInstance().age == 0){
                 if(room.room_type != 4 && room.room_type != 8) {
-                    entity.Player.getInstance().age = 1;
+                    player.age = 1;
+                }
+                if(player.meat_affinity > 5){
+                    player.meat_love = true;
+                }
+                if(player.veggie_affinity > 5){
+                    player.veggie_love = true;
+                }
+                if(player.sweet_affinity > 5){
+                    player.sweet_love = true;
+                }
+                if(player.milk_affinity > 5){
+                    player.milk_love = true;
                 }
             }
 
