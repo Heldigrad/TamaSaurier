@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class DB_info {
-    String[] colHeads = {"age","gender", "HS_football", "HS_card", "HS_meteor", "hunger", "fun", "hygiene", "energy"};
+    String[] colHeads = {"age","gender", "HS_football", "HS_card", "HS_meteor", "hunger", "fun", "hygiene", "energy", "veggie_love", "meat_love", "milk_love", "sweet_love"};
     String[][] data = {};
     DefaultTableModel model = new DefaultTableModel(data, colHeads);
 //jt = new JTable(data, colHeads);
@@ -37,6 +37,11 @@ public class DB_info {
                 Player.getInstance().fun.level = rs.getFloat("fun");
                 Player.getInstance().hygiene.level = rs.getFloat("hygiene");
                 Player.getInstance().energy.level = rs.getFloat("energy");
+                Player.getInstance().veggie_love = rs.getInt("veggie_love") == 1;
+                Player.getInstance().meat_love = rs.getInt("meat_love") == 1;
+                Player.getInstance().milk_love = rs.getInt("milk_love") == 1;
+                Player.getInstance().sweet_love = rs.getInt("sweet_love") == 1;
+
                 System.out.println();
             }
             rs.close();
@@ -84,6 +89,18 @@ public class DB_info {
             sql = "UPDATE Saurier set HS_meteor = " + GamePanel.getInstance().high_score_meteor;
             stmt.executeUpdate(sql);
 
+            sql = "UPDATE Saurier set veggie_love = " + ((Player.getInstance().veggie_love) ? 1 : 0);
+            stmt.executeUpdate(sql);
+
+            sql = "UPDATE Saurier set meat_love = " + ((Player.getInstance().meat_love) ? 1 : 0);
+            stmt.executeUpdate(sql);
+
+            sql = "UPDATE Saurier set milk_love = " + ((Player.getInstance().milk_love) ? 1 : 0);
+            stmt.executeUpdate(sql);
+
+            sql = "UPDATE Saurier set sweet_love = " + ((Player.getInstance().sweet_love) ? 1 : 0);
+            stmt.executeUpdate(sql);
+
             c.commit();
             stmt.close();
             c.close();
@@ -94,49 +111,5 @@ public class DB_info {
         System.out.println("update done");
     }
 
-    public void reset(){
-        Connection c = null;
-        Statement stmt = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:TamaSaurier_DB.db");
-            c.setAutoCommit(false);
-            stmt = c.createStatement();
-
-            String sql = "UPDATE Saurier set age = 0";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set gender = " + Player.getInstance().gender;
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set hunger = 1";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set fun = 1";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set hygiene = 1";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set energy = 1";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set HS_football = 0";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set HS_card = 0";
-            stmt.executeUpdate(sql);
-
-            sql = "UPDATE Saurier set HS_meteor = 0";
-            stmt.executeUpdate(sql);
-
-            c.commit();
-            stmt.close();
-            c.close();
-        } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + "3 " + e.getMessage() );
-            System.exit(0);
-        }
-    }
 }
 

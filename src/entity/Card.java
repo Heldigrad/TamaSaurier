@@ -123,10 +123,11 @@ public class Card extends Entity{
                 cards[i1][j1].setImage(cards[i1][j1].type);
                 cards[i2][j2].setImage(cards[i2][j2].type);
                 int okk = 1;
-                for (int i = 0; i < cards.length; ++i) {
-                    for(int j = 0; j < cards[0].length; ++j) {
-                        if(!cards[i][j].permanently_visible){
+                for (Card[] card : cards) {
+                    for (int j = 0; j < cards[0].length; ++j) {
+                        if (!card[j].permanently_visible) {
                             okk = 0;
+                            break;
                         }
                     }
                 }

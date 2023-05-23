@@ -124,16 +124,16 @@ public class GamePanel extends JPanel implements Runnable{
                 if(room.room_type != 4 && room.room_type != 8) {
                     player.age = 1;
                 }
-                if(player.meat_affinity > 5){
+                if(player.meat_affinity > 4){
                     player.meat_love = true;
                 }
-                if(player.veggie_affinity > 5){
+                if(player.veggie_affinity > 4){
                     player.veggie_love = true;
                 }
-                if(player.sweet_affinity > 5){
+                if(player.sweet_affinity > 4){
                     player.sweet_love = true;
                 }
-                if(player.milk_affinity > 5){
+                if(player.milk_affinity > 4){
                     player.milk_love = true;
                 }
             }
@@ -294,9 +294,9 @@ public class GamePanel extends JPanel implements Runnable{
             g2.drawString("Stage: " + stage, 50, 50);
             g2.drawString("Timer: " + (60 - (System.nanoTime() - timer)/1000000000), 50, 100);
 
-            for(int i = 0; i < cards.length; ++i){
-                for(int j = 0; j < cards[0].length; ++j){
-                    cards[i][j].draw(g2, cards[i][j].x, cards[i][j].y);
+            for (Card[] card : cards) {
+                for (int j = 0; j < cards[0].length; ++j) {
+                    card[j].draw(g2, card[j].x, card[j].y);
                 }
             }
         }

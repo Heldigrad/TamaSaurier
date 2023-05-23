@@ -195,10 +195,8 @@ public class Player extends Entity{
         if(cx <= 0){ // left
             return true;
         }
-        if(cx + this.width * 6 >= 1535 ){ // right
-            return true;
-        }
-        return false;
+        // right
+        return cx + this.width * 6 >= 1535;
     }
 
     //function that checks if the dinosaur intersects the goal in the football mini game
@@ -228,9 +226,7 @@ public class Player extends Entity{
 
         // right part of the goal
         if(cx > gp.goal.x && cx < gp.goal.x + gp.goal.width * 9){
-            if(cy > gp.goal.y - this.height * 6 && cy < gp.goal.y + gp.goal.height * 9){
-                return true;
-            }
+            return cy > gp.goal.y - this.height * 6 && cy < gp.goal.y + gp.goal.height * 9;
         }
 
         return false;
@@ -285,7 +281,7 @@ public class Player extends Entity{
         }
         else{
             if(!is_moving) {
-                int move = (int) (Math.random() * (300 - 0)) + 0;// movement probability
+                int move = (int) (Math.random() * (300));// movement probability
                 if(move == 7){
                     is_moving = true;
 
@@ -342,7 +338,15 @@ public class Player extends Entity{
     }
 
     public boolean check_love(Food food){
+        System.out.println(meat_love + " - meat_love");
+        System.out.println(veggie_love + " - veggie_love");
+        System.out.println(milk_love + " - milk_love");
+        System.out.println(sweet_love + " - sweet_love");
+
         if(age == 0){
+            return true;
+        }
+        if (!meat_love && !veggie_love && !milk_love && !sweet_love) {
             return true;
         }
         if (meat_love && food.meat) {
@@ -362,7 +366,7 @@ public class Player extends Entity{
         if(x==1){
             return true;
         }
-        System.out.println("I'm not eating that.");
+        System.out.println(food.type + " - I'm not eating that.");
         return false;
     }
 
